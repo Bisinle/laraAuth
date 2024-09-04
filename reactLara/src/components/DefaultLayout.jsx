@@ -8,10 +8,10 @@ export default function DefaultLayout() {
         return <Navigate to="/login" />;
     }
 
-    const onLogout =(ev)=>{
-        ev.preventDefault()
-
-    }
+    const onLogout = (ev) => {
+        ev.preventDefault();
+        localStorage.removeItem("ACCESS_TOKEN");
+    };
     return (
         <div id="defaultLayout">
             <aside>
@@ -19,11 +19,13 @@ export default function DefaultLayout() {
                 <Link to="/users">Users</Link>
             </aside>
 
-            <div className="content" >
+            <div className="content">
                 <header>
                     <div>HEADER</div>
                     <div>{user.name}</div>
-                    <a href="#" onClick={onLogout} className="btn-logout" >logout</a>
+                    <a href="#" onClick={onLogout} className="btn-logout">
+                        logout
+                    </a>
                 </header>
                 <main>
                     <Outlet />

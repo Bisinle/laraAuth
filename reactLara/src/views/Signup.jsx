@@ -1,64 +1,70 @@
-import React from "react";
-import { createRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { useStateContext } from '../contexts/ContextProvider';
-
+import { createRef, useState } from "react";
 import axiosClient from "../axiosClient";
+import { useStateContext } from "../contexts/ContextProvider";
 
 export default function Signup() {
-    //^ create refs for each field --------------------------------------------------->
     const nameRef = createRef();
     const emailRef = createRef();
     const passwordRef = createRef();
     const passwordConfirmationRef = createRef();
-
-    //^ get context states --------------------------------------------------->
-    // const { setUser, setToken } = useStateContext();
-    const {setUser,setToken}=useStateContext()
+    const { setUser, setToken } = useStateContext();
     const [errors, setErrors] = useState(null);
 
-    //^ On submit function --------------------------------------------------->
     const onSubmit = (ev) => {
         ev.preventDefault();
 
-        //^ get all input current value using ref --------------------------------------------------->
         const payload = {
             name: nameRef.current.value,
             email: emailRef.current.value,
             password: passwordRef.current.value,
             password_confirmation: passwordConfirmationRef.current.value,
         };
-        console.log(payload)
-        //^ post the data to api  --------------------------------------------------->
         axiosClient
             .post("/signup", payload)
             .then(({ data }) => {
+                console.log('User:'+data.user, 'Token' +data.token)
                 setUser(data.user);
                 setToken(data.token);
             })
             .catch((err) => {
                 const response = err.response;
-                if (response && response.status === 422) {//^ 422= validation error
+                if (response && response.status === 422) {
                     setErrors(response.data.errors);
                 }
             });
     };
+
     return (
-        <form  onSubmit={onSubmit}>
-            <h1 className="title"> Sign up for free</h1>
-            <input ref={nameRef} type="text" placeholder=" Full Name" />
-            <input ref={emailRef} type="Email" placeholder="Email Address" />
-            <input ref={passwordRef} type="password" placeholder="password" />
-            <input
-                ref={passwordConfirmationRef}
-                type="password"
-                placeholder="password Confirm"
-            />
-            <button className="btn btn-block">Signup</button>
-            <p className="message">
-                All ready Registered?
-                <Link to="/login">Sign in</Link>
-            </p>
-        </form>
+        
+        <form onSubmit={onSubmit} className=" flex flex-col gap-3">
+        <h1 className="title">Signup for Free</h1>
+    
+        <div className="flex flex-col my-0 py-0 "  >
+            <input autoComplete="on" ref={nameRef} type="text" placeholder="Full Name"  className="m-0" />
+            {errors && errors.name && <p className="text-red-500 ">* {errors.name[0]}</p>}
+        </div>
+    
+        <div className="flex flex-col my-0 py-0 " >
+            <input autoComplete="on" ref={emailRef} type="email" placeholder="Email Address" className="m-0" />
+            {errors && errors.email && <p className="text-red-500 ">* {errors.email[0]}</p>}
+        </div>
+    
+        <div className="flex flex-col my-0 py-0 " >
+            <input autoComplete="on" ref={passwordRef} type="password" placeholder="Password" className="m-0" />
+            {errors && errors.password && <p className="text-red-500 ">* {errors.password[0]}</p>}
+        </div>
+    
+        <div className="flex flex-col my-0 py-0 " >
+            <input autoComplete="on" ref={passwordConfirmationRef} type="password" placeholder="Repeat Password" />
+            {errors && errors.password_confirmation && <p className="text-red-500 ">* {errors.password_confirmation[0]}</p>}
+        </div>
+    
+        <button className="btn btn-block">Signup</button>
+        <p className="message">
+            Already registered? <Link to="/login">Sign In</Link>
+        </p>
+    </form>
+           
     );
 }

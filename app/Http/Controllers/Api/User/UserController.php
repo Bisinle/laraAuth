@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Resources\User\UserResource;
 use App\Models\User;
 
@@ -19,13 +19,12 @@ class UserController extends Controller
     {
         // return UserResource::collection(User::query()->orderBy('id', 'asc')->paginate(10));
         return UserResource::collection(User::query()->latest()->simplePaginate(10));
-
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\StoreUserRequest $request
+     * @param \App\Http\Requests\Auth\StoreUserRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreUserRequest $request)
@@ -34,7 +33,7 @@ class UserController extends Controller
         $data['password'] = bcrypt($data['password']);
         $user = User::create($data);
 
-        return response(new UserResource($user) , 201);
+        return response(new UserResource($user), 201);
     }
 
     /**
@@ -53,7 +52,7 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\UpdateUserRequest $request
+     * @param \App\Http\Requests\User\UpdateUserRequest $request
      * @param \App\Models\User                     $user
      * @return \Illuminate\Http\Response
      */

@@ -25,8 +25,8 @@ export default function UserForm() {
       axiosClient.get(`/users/${id}`)
         .then(({data}) => {
           setLoading(false)
-          setUser(data.data)
-          console.log(data)
+          setUser(data.data )
+        //   console.log(data)
         })
         .catch(() => {
           setLoading(false)
@@ -65,8 +65,8 @@ export default function UserForm() {
 
   return (
     <>
-      {user.id && <h1>Update User: {user.name}</h1>}
-      {!user.id && <h1>New User</h1>}
+      {user.id && <h1 className=" font-bold text-2xl ">Update User: {user.name}</h1>}
+      {!user.id && <h1 className=" font-bold text-2xl ">New User</h1>}
       <div className="card animated fadeInDown">
         {loading && (
           <div className="text-center">

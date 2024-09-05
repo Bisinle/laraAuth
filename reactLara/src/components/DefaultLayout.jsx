@@ -28,6 +28,7 @@ export default function DefaultLayout() {
         <div id="defaultLayout">
             <aside>
                 <Link to="/dashboard">Dashboard</Link>
+                <Link to="/posts">Posts</Link>
                 <Link to="/users">Users</Link>
             </aside>
 

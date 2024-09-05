@@ -6,7 +6,7 @@ import { useStateContext } from "../../contexts/ContextProvider";
 export default function Users() {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(false);
-    const { setNotification } = useStateContext();
+    const { setNotificationOnDelete } = useStateContext();
 
     useEffect(() => {
         getUsers();
@@ -17,7 +17,7 @@ export default function Users() {
         //   return
         // }
         axiosClient.delete(`/users/${user.id}`).then(() => {
-            setNotification("User was successfully deleted");
+            setNotificationOnDelete("User was successfully deleted");
             getUsers();
             // const usersUpdated = users.filter(u => u.id !== user.id)
             // setUsers(usersUpdated)

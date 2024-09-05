@@ -40,6 +40,9 @@ export default function DefaultLayout() {
                         logout
                     </a>
                 </header>
+                {notification && (
+                    <div className="notification">{notification}</div>
+                )}
                 <main>
                     <Outlet />
                 </main>

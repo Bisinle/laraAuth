@@ -17,7 +17,7 @@ export default function UserForm() {
   })
   const [errors, setErrors] = useState(null)
   const [loading, setLoading] = useState(false)
-  const {setNotification} = useStateContext()
+  const {setNotificationOnDelete} = useStateContext()
 
   if (id) {
     useEffect(() => {
@@ -39,7 +39,7 @@ export default function UserForm() {
     if (user.id) {
       axiosClient.put(`/users/${user.id}`, user)
         .then(() => {
-          setNotification('User was successfully updated')
+          setNotificationOnDelete('User was successfully updated')
           navigate('/users')
         })
         .catch(err => {
@@ -51,7 +51,7 @@ export default function UserForm() {
     } else {
       axiosClient.post('/users', user)
         .then(() => {
-          setNotification('User was successfully created')
+          setNotificationOnDelete('User was successfully created')
           navigate('/users')
         })
         .catch(err => {

@@ -5,6 +5,7 @@ const StateContext = createContext({
     token: null,
     setUser: () => {},
     setToken: () => {},
+    setNotificationOnDelete: () => {},
 });
 
 export const ContextProvider = ({ children }) => {
@@ -26,7 +27,7 @@ export const ContextProvider = ({ children }) => {
 
         setTimeout(() => {
             setNotification("");
-        }, 5000);
+        }, 2000);
     };
 
     return (
@@ -36,7 +37,8 @@ export const ContextProvider = ({ children }) => {
                 token,
                 setUser,
                 setToken: setTokenAndLocalStorage,
-                setNotification: setNotificationOnDelete,
+                setNotificationOnDelete,
+                notification,
             }}
         >
             {children}

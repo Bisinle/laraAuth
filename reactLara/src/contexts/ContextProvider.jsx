@@ -5,6 +5,7 @@ const StateContext = createContext({
     token: null,
     setUser: () => {},
     setToken: () => {},
+    
 });
 
 export const ContextProvider = ({ children }) => {

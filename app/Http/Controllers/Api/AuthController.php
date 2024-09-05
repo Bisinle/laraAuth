@@ -45,7 +45,12 @@ class AuthController extends Controller
     {
         /** @var \App\Models\User $user */
         $user = $request->user();
+        $token = $request->bearerToken();
         // $user->currentAccessToken()->delete();
+        // $user->tokens()->delete();
+        if ($token) {
+            $user->tokens()->where('token', hash('sha256', $token))->delete();
+        }
         return response('', 204);
     }
 }

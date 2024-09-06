@@ -1,54 +1,106 @@
 import React from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
-export default function Pagination({ meta, onPageChange }) {
-    if (!meta || !meta.links || meta.links.length <= 3) {
-        return null;
-    }
+const Pagination = ({ meta, onPageChange }) => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const currentPage = parseInt(queryParams.get("page") || "1", 10);
+    const totalPages = meta.last_page;
 
-    const getClassName = (active) =>
-        `px-3 py-1 rounded-md ${
-            active
-                ? "bg-blue-500 text-white"
-                : "bg-white text-gray-700 hover:bg-gray-50"
-        }`;
+    const renderPageNumbers = () => {
+        const pageNumbers = [];
+        const maxVisiblePages = 5; // Reduced to account for the "First" button
 
-    const handleClick = (e, link) => {
-        e.preventDefault();
-        if (link.url) {
-            // Extract page number from the URL
-            const pageNumber = new URL(link.url).searchParams.get("page");
-            onPageChange(Number(pageNumber));
+        if (totalPages <= maxVisiblePages) {
+            // Show all page numbers if total pages are less than or equal to maxVisiblePages
+            for (let i = 2; i <= totalPages; i++) {
+                pageNumbers.push(i);
+            }
+        } else {
+            let startPage = Math.max(2, currentPage - 1);
+            let endPage = Math.min(startPage + 2, totalPages);
+
+            // Adjust start and end page if we're near the end
+            if (endPage === totalPages) {
+                startPage = Math.max(2, endPage - 2);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                pageNumbers.push(i);
+            }
+
+            // Add ellipsis if there are more pages
+            if (endPage < totalPages - 1) {
+                pageNumbers.push("...");
+            }
+
+            // Always add the last page if it's not already included
+            if (endPage < totalPages) {
+                pageNumbers.push(totalPages);
+            }
+        }
+
+        return pageNumbers;
+    };
+
+    const handlePageChange = (page) => {
+        if (page >= 1 && page <= totalPages) {
+            navigate(`?page=${page}`);
+            onPageChange(page);
         }
     };
 
     return (
-        <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
-            <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-                <div>
-                    <p className="text-sm text-gray-700">
-                        Showing <span className="font-medium">{meta.from}</span>{" "}
-                        to <span className="font-medium">{meta.to}</span> of{" "}
-                        <span className="font-medium">{meta.total}</span>{" "}
-                        results
-                    </p>
-                </div>
-                <div>
-                    <nav
-                        className="isolate inline-flex -space-x-px rounded-md shadow-sm"
-                        aria-label="Pagination"
-                    >
-                        {meta.links.map((link, index) => (
-                            <button
-                                key={index}
-                                onClick={(e) => handleClick(e, link)}
-                                disabled={!link.url}
-                                className={getClassName(link.active)}
-                                dangerouslySetInnerHTML={{ __html: link.label }}
-                            />
-                        ))}
-                    </nav>
-                </div>
-            </div>
+        <div className="flex gap-4  justify-end mt-6 ">
+            <button
+                className="  transition-transform duration-300 ease-in-out hover:scale-105 p-3 hover:bg-gray-800 bg-gray-700 text-white  rounded-sm "
+                onClick={() => handlePageChange(1)}
+                disabled={currentPage === 1}
+            >
+                First
+            </button>
+            <button
+                className="  transition-transform duration-300 ease-in-out hover:scale-105 p-3 hover:bg-gray-800 bg-gray-700 text-white  rounded-sm "
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+            >
+               Prev
+            </button>
+
+            {renderPageNumbers().map((number, index) => (
+                <button
+                    key={index}
+                    onClick={() =>
+                        typeof number === "number" && handlePageChange(number)
+                    }
+                    disabled={number === currentPage || number === "..."}
+                    className={
+                        number === currentPage
+                            ? "bg-indigo-600 transition-transform duration-300 ease-in-out hover:scale-105 p-3 hover:bg-indigo-700  text-white  rounded-sm"
+                            : "transition-transform duration-300 ease-in-out hover:scale-105 p-3 hover:bg-gray-800 bg-gray-700 text-white  rounded-sm "
+                    }
+                >
+                    {number}
+                </button>
+            ))}
+
+            <button
+                className="  transition-transform duration-300 ease-in-out hover:scale-105 p-3 hover:bg-gray-800 bg-gray-700 text-white  rounded-sm "
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+            >
+                Next
+            </button>
+            <button
+                className="  transition-transform duration-300 ease-in-out hover:scale-105 p-3 hover:bg-gray-800 bg-gray-700 text-white  rounded-sm "
+                onClick={() => handlePageChange(totalPages)}
+                disabled={currentPage === totalPages}
+            >
+                Last
+            </button>
         </div>
     );
-}
+};
+
+export default Pagination;

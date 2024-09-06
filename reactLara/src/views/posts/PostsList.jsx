@@ -12,8 +12,14 @@ export default function PostsList() {
     const { setCurrentUserPosts } = useStateContext();
     const [meta, setMeta] = useState(null);
 
-    // console.log(allPosts);
+    //^ when component mounts, fetch run the fetchPosts function------------------------------------>
+    useEffect(() => {
+        fetchPosts();
+    }, []);
 
+    console.log(allPosts);
+
+    //^ fetch posts function ------------------------------------------------------------------------->
     const fetchPosts = async (page = 1) => {
         try {
             const { data } = await axiosClient.get(`/posts?page=${page}`);
@@ -26,7 +32,7 @@ export default function PostsList() {
             );
             setCurrentUserPosts(userPosts);
             setAllPosts(data.data);
-            // console.log(data.links);
+            console.log(data.meta);
             setMeta(data.meta);
         } catch (err) {
             setLoading(false);
@@ -35,10 +41,8 @@ export default function PostsList() {
         }
     };
 
-    useEffect(() => {
-        fetchPosts();
-    }, []);
-
+    //^ each time the page number changes, update the ------------------------------------------------>
+    //^ below function and pass the new page number to fetposts
     const onPageChange = (pageNumber) => {
         fetchPosts(pageNumber);
     };
@@ -56,7 +60,8 @@ export default function PostsList() {
                     ))}
                 </div>
             )}
-            <Pagination meta={meta} onPageChange={onPageChange} />{" "}
+            
+            {meta && <Pagination meta={meta} onPageChange={onPageChange} />}
         </div>
     );
 }

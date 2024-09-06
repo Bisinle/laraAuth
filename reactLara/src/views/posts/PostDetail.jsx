@@ -41,7 +41,7 @@ export default function PostDetail() {
 
     return (
         <div className="container mx-auto px-4 py-8">
-            <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden transition-transform duration-300 ease-in-out hover:scale-105">
+            <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden ">
                 <div className="p-6 flex flex-col h-full">
                     <div className="flex justify-between items-start mb-4">
                         <span className="bg-indigo-600 text-white text-xs font-semibold px-2 py-1 rounded-full">
@@ -51,7 +51,7 @@ export default function PostDetail() {
                             {new Date(thisPostDetail.created_at).toLocaleDateString()}
                         </span>
                     </div>
-                    <h2 className="text-xl font-bold text-gray-100 mb-3 hover:text-indigo-400 transition-colors duration-200">
+                    <h2 className="text-xl font-bold text-gray-100 mb-3 ">
                         {thisPostDetail.title}
                     </h2>
                     <p className="text-gray-400 mb-4">

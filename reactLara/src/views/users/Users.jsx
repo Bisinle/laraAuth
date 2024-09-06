@@ -125,8 +125,8 @@ export default function Users() {
                         </tbody>
                     </table>
                 )}
-                {meta && <Pagination meta={meta} onPageChange={onPageChange} />}
             </div>
+                {meta && <Pagination meta={meta} onPageChange={onPageChange} />}
         </div>
     );
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Post;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Post\PostResources;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
@@ -13,87 +14,27 @@ use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
-    public function home()
-    {
-        $featuredposts = Post::with('user')
-            ->orderBy('salary', 'desc')
-            ->take(3)
-            ->get();
-
-        $userCount = User::count();
-        $categoryCount = Category::count();
-        $postCount = Post::count();
-
-        return view('home', compact('featuredposts', 'userCount', 'postCount', 'categoryCount'));
-    }
-
-    // public function index()
+    // public function home()
     // {
-    //     // $posts = Post::all();
-    //     //     // $posts = Post::with('user')->get();
-    //     //     // $posts = Post::with('user')->paginate(8);
-    //     //     // $posts = Post::with('user')->cursorPaginate(8); // bes option when dealing with large data sets
-    //     // $posts = Post::with('user')->orderBy('created_at', 'asc')->simplePaginate(12);
-    //     $posts = Post::with('user')->latest()->simplePaginate(12);
-    //     // $posts = Post::with('user')
+    //     $featuredposts = Post::with('user')
+    //         ->orderBy('salary', 'desc')
+    //         ->take(3)
+    //         ->get();
 
-    //     //     ->simplePaginate(9);
+    //     $userCount = User::count();
+    //     $categoryCount = Category::count();
+    //     $postCount = Post::count();
 
-    //     return view('posts.index', ['posts' => $posts]);
+    //     return view('home', compact('featuredposts', 'userCount', 'postCount', 'categoryCount'));
     // }
+
+
     public function index(Request $request)
     {
-        $query = Post::query();
-
-        if ($request->has('search_term')) {
-            $searchTerm = $request->input('search_term');
-            $query->where('title', 'like', '%' . $searchTerm . '%')
-                ->orWhere('description', 'like', '%' . $searchTerm . '%');
-        }
-
-        $posts = $query->latest()->simplePaginate(9);
-
-
-        if ($request->wantsJson()) {
-            return response()->json([
-                'posts' => $posts
-            ]);
-        }
-
-        return view('posts.index', ['posts' => $posts]);
+        // return UserResource::collection(User::query()->orderBy('id', 'asc')->paginate(10));
+        return PostResources::collection(Post::query()->latest()->simplePaginate(9));
     }
 
-    // public function search(Request $request)
-    // {
-    //     $searchTerm = $request->input('search_term');
-    //     $categoryId = $request->input('category_id');
-    //     $userId = $request->input('user_id');
-
-    //     $query = Post::query();
-
-    //     if ($searchTerm) {
-    //         $query->where(function ($q) use ($searchTerm) {
-    //             $q->where('title', 'like', '%' . $searchTerm . '%')
-    //                 ->orWhere('description', 'like', '%' . $searchTerm . '%');
-    //         });
-    //     }
-
-    //     if ($categoryId) {
-    //         $query->where('category_id', $categoryId);
-    //     }
-
-    //     if ($userId) {
-    //         $query->where('user_id', $userId);
-    //     }
-
-    //     $posts = $query->with('category', 'user')
-    //         ->paginate(12);
-
-    //     $categories = Category::all();
-    //     $users = User::all();
-
-    //     return view('posts.index', compact('posts', 'categories', 'users'));
-    // }
 
     public function create()
     {
@@ -145,11 +86,8 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        if ($post === null) {
-            dd($post);
-            return view('posts.notFound');
-        }
-        return view('posts.show', ['post' => $post]);
+
+        return new PostResources($post);
     }
 
 

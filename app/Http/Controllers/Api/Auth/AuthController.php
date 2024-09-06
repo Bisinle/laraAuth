@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\SignupRequest;
+use App\Http\Resources\User\UserResource;
 use App\Models\User;
 use http\Env\Response;
 use Illuminate\Http\Request;
@@ -26,21 +27,31 @@ class AuthController extends Controller
         return response(compact('user', 'token'));
     }
 
+
+    //^ loging method ---------------------------------------------------->
     public function login(LoginRequest $request)
     {
         $credentials = $request->validated();
         if (!Auth::attempt($credentials)) {
             return response([
-                'message' => 'Provided email or password is incorrect'
+                'message' => 'invalid Credentials'
             ], 422);
         }
 
         /** @var \App\Models\User $user */
         $user = Auth::user();
+        $user->load('posts.category');
         $token = $user->createToken('main')->plainTextToken;
-        return response(compact('user', 'token'));
+        return response()->json([
+            'token' => $token,
+            'user' => new UserResource($user),  // Use a UserResource to control what's sent
+        ]);;
     }
 
+
+
+
+    //^ logout method ---------------------------------------------------->
     public function logout(Request $request)
     {
         /** @var \App\Models\User $user */

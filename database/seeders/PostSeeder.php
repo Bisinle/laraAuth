@@ -19,7 +19,7 @@ class PostSeeder extends Seeder
 
 
         //create posts using the user and category id's
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < 100; $i++) {
 
             Post::create([
                 "title" => fake()->sentence(6, true),

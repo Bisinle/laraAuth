@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 import { useStateContext } from "../../contexts/ContextProvider";
 
 export default function Users() {
-    const [users, setUsers] = useState([]);
+    const [allUsers, setAllUsers] = useState([]);
     const [loading, setLoading] = useState(false);
     const { setNotificationOnDelete } = useStateContext();
 
     useEffect(() => {
-        getUsers();
+        getAllUsers();
     }, []);
 
     const onDeleteClick = (user) => {
@@ -18,13 +18,13 @@ export default function Users() {
         // }
         axiosClient.delete(`/users/${user.id}`).then(() => {
             setNotificationOnDelete("User was successfully deleted");
-            getUsers();
+            getAllUsers();
             // const usersUpdated = users.filter(u => u.id !== user.id)
-            // setUsers(usersUpdated)
+            // setAllUsers(usersUpdated)
         });
     };
 
-    const getUsers = () => {
+    const getAllUsers = () => {
         setLoading(true);
         axiosClient
             .get("/users")
@@ -32,7 +32,7 @@ export default function Users() {
                 console.log(data);
 
                 setLoading(false);
-                setUsers(data.data);
+                setAllUsers(data.data);
             })
             .catch(() => {
                 setLoading(false);
@@ -40,68 +40,60 @@ export default function Users() {
     };
 
     return (
-        <div>
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                }}
-            >
-                <h1>Users</h1>
-                <Link className="btn-add" to="/users/new">
-                    Add new
-                </Link>
-            </div>
-            <div className="card animated fadeInDown">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Create Date</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    {loading && (
-                        <tbody>
-                            <tr>
-                                <td colSpan="5" className="text-center">
-                                    Loading...
-                                </td>
-                            </tr>
-                        </tbody>
-                    )}
-                    {!loading && (
-                        <tbody>
-                            {users.map((u) => (
-                                <tr key={u.id}>
-                                    <td>{u.id}</td>
-                                    <td>{u.name}</td>
-                                    <td>{u.email}</td>
-                                    <td>{u.created_at}</td>
-                                    <td>
-                                        <Link
-                                            className="btn-edit"
-                                            to={"/users/" + u.id}
-                                        >
-                                            Edit
-                                        </Link>
-                                        &nbsp;
-                                        <button
-                                            className="btn-delete"
-                                            onClick={(ev) => onDeleteClick(u)}
-                                        >
-                                            Delete
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    )}
-                </table>
-            </div>
-        </div>
-    );
-}
+   
+                <div className="container mx-auto px-4 py-8">
+                    <div className="flex justify-between items-center mb-6">
+                        <h1 className="text-2xl font-bold text-gray-100">Users</h1>
+                        <Link 
+                            to="/users/new" 
+                            className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded transition duration-300"
+                        >
+                            Add new
+                        </Link>
+                    </div>
+                    <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                        {loading ? (
+                            <div className="flex justify-center items-center h-64">
+                                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+                            </div>
+                        ) : (
+                            <table className="w-full ">
+                                <thead className="bg-gray-700">
+                                    <tr >
+                                        <th className="px-6 py-3 text-left text-xs font-bold bg-gray-700 text-gray-300 uppercase tracking-wider">ID</th>
+                                        <th className="px-6 py-3 text-left text-xs font-bold bg-gray-700 text-gray-300 uppercase tracking-wider">Name</th>
+                                        <th className="px-6 py-3 text-left text-xs font-bold bg-gray-700 text-gray-300 uppercase tracking-wider">Email</th>
+                                        <th className="px-6 py-3 text-left text-xs font-bold bg-gray-700 text-gray-300 uppercase tracking-wider">Create Date</th>
+                                        <th className="px-6 py-3 text-left text-xs font-bold bg-gray-700 text-gray-300 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-gray-700">
+                                    {allUsers.map((u) => (
+                                        <tr key={u.id} className="hover:bg-gray-700 transition-colors duration-200">
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{u.id}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{u.name}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{u.email}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{new Date(u.created_at).toLocaleDateString()}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                <Link 
+                                                    to={`/users/${u.id}`} 
+                                                    className="text-indigo-400 hover:text-indigo-300 mr-3"
+                                                >
+                                                    Edit
+                                                </Link>
+                                                <button 
+                                                    onClick={() => onDeleteClick(u)} 
+                                                    className="text-red-400 hover:text-red-300"
+                                                >
+                                                    Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        )}
+                    </div>
+                </div>
+            );
+        }

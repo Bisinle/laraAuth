@@ -4,7 +4,7 @@ import { useStateContext } from "../contexts/ContextProvider";
 import axiosClient from "../axiosClient";
 
 export default function DefaultLayout() {
-    const { user, token, setUser, setToken, notification } = useStateContext();
+    const { currentUser, token, setCurrentUser, setToken, notification } = useStateContext();
 
     if (!token) {
         return <Navigate to="/login" />;
@@ -14,14 +14,14 @@ export default function DefaultLayout() {
         ev.preventDefault();
 
         axiosClient.post("/logout").then(() => {
-            setUser({});
+            setCurrentUser({});
             setToken(null);
         });
     };
 
     useEffect(() => {
         axiosClient.get("/user").then(({ data }) => {
-            setUser(data);
+            setCurrentUser(data);
         });
     }, []);
     return (
@@ -35,7 +35,7 @@ export default function DefaultLayout() {
             <div className="content">
                 <header>
                     <div>HEADER</div>
-                    <div>{user.name}</div>
+                    <div>{currentUser.name}</div>
                     <a href="#" onClick={onLogout} className="btn-logout">
                         logout
                     </a>

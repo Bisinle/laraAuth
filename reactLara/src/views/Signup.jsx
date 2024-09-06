@@ -8,7 +8,7 @@ export default function Signup() {
     const emailRef = createRef();
     const passwordRef = createRef();
     const passwordConfirmationRef = createRef();
-    const { setUser, setToken } = useStateContext();
+    const { setCurrentUser, setToken } = useStateContext();
     const [errors, setErrors] = useState(null);
 
     const onSubmit = (ev) => {
@@ -24,7 +24,7 @@ export default function Signup() {
             .post("/signup", payload)
             .then(({ data }) => {
                 console.log('User:'+data.user, 'Token' +data.token)
-                setUser(data.user);
+                setCurrentUser(data.user);
                 setToken(data.token);
             })
             .catch((err) => {

@@ -7,21 +7,24 @@ import { useState } from "react";
 export default function Login() {
     const emailRef = createRef();
     const passwordRef = createRef();
-    const { setUser, setToken } = useStateContext();
+    const { setCurrentUser, setToken } = useStateContext();
     const [message, setMessage] = useState(null);
 
     const onSubmit = (ev) => {
         ev.preventDefault();
 
-        const payload = {
+        const credentials = {
             email: emailRef.current.value,
             password: passwordRef.current.value,
         };
         axiosClient
-            .post("/login", payload)
+            .post("/login", credentials)
             .then(({ data }) => {
-                setUser(data.user);
+                console.log(data.user.posts.category);
+                localStorage.setItem("user", JSON.stringify(data.user));
+                setCurrentUser(data.user);
                 setToken(data.token);
+                // setToken(data.token);
             })
             .catch((err) => {
                 const response = err.response;
@@ -32,28 +35,31 @@ export default function Login() {
     };
 
     return (
-       
-                <form onSubmit={onSubmit}>
-                    <h1 className="title">Login into your account</h1>
+        <form onSubmit={onSubmit}>
+            <h1 className="title">Login into your account</h1>
 
-                    {message && (
-                        <div className="alert">
-                            <p>{message}</p>
-                        </div>
-                    )}
+            {message && (
+                <div className="alert">
+                    <p>{message}</p>
+                </div>
+            )}
 
-                    <input autoComplete="on" ref={emailRef} type="email" placeholder="Email" />
-                    <input autoComplete="on"
-                        ref={passwordRef}
-                        type="password"
-                        placeholder="Password"
-                    />
-                    <button className="btn btn-block">Login</button>
-                    <p className="message">
-                        Not registered?{" "}
-                        <Link to="/signup">Create an account</Link>
-                    </p>
-                </form>
-
+            <input
+                autoComplete="on"
+                ref={emailRef}
+                type="email"
+                placeholder="Email"
+            />
+            <input
+                autoComplete="on"
+                ref={passwordRef}
+                type="password"
+                placeholder="Password"
+            />
+            <button className="btn btn-block">Login</button>
+            <p className="message">
+                Not registered? <Link to="/signup">Create an account</Link>
+            </p>
+        </form>
     );
 }

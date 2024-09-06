@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\Post\PostController;
 use App\Http\Controllers\Api\User\UserController;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -17,6 +18,7 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
     Route::apiResource('/users', UserController::class);
+    Route::apiResource('/posts', PostController::class);
 });
 
 Route::post('/login', [AuthController::class, 'login']);

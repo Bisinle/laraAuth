@@ -3,15 +3,17 @@ import React, { createContext, useContext, useState } from "react";
 const StateContext = createContext({
     currentUser: null,
     token: null,
-    setUser: () => {},
+    setCurrentUser: () => {},
     setToken: () => {},
+    setCurrentUserPosts: () => {},
     setNotificationOnDelete: () => {},
 });
 
 export const ContextProvider = ({ children }) => {
-    const [user, setUser] = useState({});
+    const [currentUser, setCurrentUser] = useState({});
     const [token, setToken] = useState(localStorage.getItem("ACCESS_TOKEN"));
     const [notification, setNotification] = useState("");
+    const [currentUserPosts, setCurrentUserPosts] = useState({});
 
     const setTokenAndLocalStorage = (newToken) => {
         setToken(newToken);
@@ -33,12 +35,14 @@ export const ContextProvider = ({ children }) => {
     return (
         <StateContext.Provider
             value={{
-                user,
+                currentUser,
                 token,
-                setUser,
+                setCurrentUser,
                 setToken: setTokenAndLocalStorage,
                 setNotificationOnDelete,
                 notification,
+                setCurrentUserPosts,
+                currentUserPosts,
             }}
         >
             {children}

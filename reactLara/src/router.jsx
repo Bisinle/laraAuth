@@ -8,6 +8,8 @@ import GuestLayout from "./components/GuestLayout";
 import DashBoard from "./views/DashBoard";
 import UserEdit from "./views/users/UserEdit";
 import UserForm from "./views/users/UserForm";
+import PostsList from "./views/posts/PostsList";
+import PostDetail from "./views/posts/PostDetail";
 
 const router = createBrowserRouter([
     {
@@ -33,6 +35,16 @@ const router = createBrowserRouter([
             {
                 path: "/users/:id",
                 element: <UserForm key="userUpdate" />,
+            },
+            ,
+            {
+                path: "/posts",
+                element: <PostsList />,
+            },
+            ,
+            {
+                path: "/posts/:id",
+                element: <PostDetail />,
             },
         ],
     },

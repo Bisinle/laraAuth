@@ -3,40 +3,48 @@ import axiosClient from "../../axiosClient";
 import { Link } from "react-router-dom";
 import { useStateContext } from "../../contexts/ContextProvider";
 import PostItem from "./PostItem";
+import Pagination from "./Pagination";
 
 export default function PostsList() {
     const [allPosts, setAllPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const { setCurrentUserPosts } = useStateContext();
+    const [meta, setMeta] = useState(null);
+
+    // console.log(allPosts);
+
+    const fetchPosts = async (page = 1) => {
+        try {
+            const { data } = await axiosClient.get(`/posts?page=${page}`);
+            setLoading(false);
+            // Assuming the current user's ID is stored somewhere, e.g., in localStorage
+            const currentUserId = JSON.parse(localStorage.getItem("user")).id;
+            // Filter posts to only include those belonging to the current user
+            const userPosts = data.data.filter(
+                (post) => post.user_id === currentUserId
+            );
+            setCurrentUserPosts(userPosts);
+            setAllPosts(data.data);
+            // console.log(data.links);
+            setMeta(data.meta);
+        } catch (err) {
+            setLoading(false);
+            setError("Failed to fetch posts");
+            console.error(err);
+        }
+    };
 
     useEffect(() => {
-        const fetchPosts = async () => {
-            try {
-                const { data } = await axiosClient.get("/posts");
-                setLoading(false);
-                // Assuming the current user's ID is stored somewhere, e.g., in localStorage
-                const currentUserId = JSON.parse(
-                    localStorage.getItem("user")
-                ).id;
-                // Filter posts to only include those belonging to the current user
-                const userPosts = data.data.filter(
-                    (post) => post.user_id === currentUserId
-                );
-                setCurrentUserPosts(userPosts);
-                setAllPosts(data.data);
-            } catch (err) {
-                setLoading(false);
-                setError("Failed to fetch posts");
-                console.error(err);
-            }
-        };
-
         fetchPosts();
     }, []);
 
+    const onPageChange = (pageNumber) => {
+        fetchPosts(pageNumber);
+    };
+
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-8 ">
             {loading ? (
                 <div className="flex justify-center items-center h-64">
                     <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
@@ -48,13 +56,14 @@ export default function PostsList() {
                     ))}
                 </div>
             )}
+            <Pagination meta={meta} onPageChange={onPageChange} />{" "}
         </div>
     );
 }
 
-{
-    /* <Link to={`/posts/${post.id}`}>{post.title}</Link> */
-}
+// {
+//     /* <Link to={`/posts/${post.id}`}>{post.title}</Link> */
+// }
 // const onDeleteClick = (user) => {
 //     // if (!window.confirm("Are you sure you want to delete this user?")) {
 //     //   return

@@ -32,7 +32,7 @@ class PostController extends Controller
     public function index(Request $request)
     {
         // return UserResource::collection(User::query()->orderBy('id', 'asc')->paginate(10));
-        return PostResources::collection(Post::query()->latest()->simplePaginate(9));
+        return PostResources::collection(Post::query()->latest()->paginate(9));
     }
 
 

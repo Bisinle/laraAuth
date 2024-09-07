@@ -6,7 +6,6 @@ import NotFound from "./views/NotFound";
 import DefaultLayout from "./components/DefaultLayout";
 import GuestLayout from "./components/GuestLayout";
 import DashBoard from "./views/DashBoard";
-import UserEdit from "./views/users/UserEdit";
 import UserForm from "./views/users/UserForm";
 import PostsList from "./views/posts/PostsList";
 import PostDetail from "./views/posts/PostDetail";

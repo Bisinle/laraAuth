@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axiosClient from "../../axiosClient";
+import { format } from "date-fns";
 
 export default function PostDetail() {
     const { id } = useParams();
@@ -41,27 +42,46 @@ export default function PostDetail() {
 
     return (
         <div className="container mx-auto px-4 py-8">
-            <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden ">
+            <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
                 <div className="p-6 flex flex-col h-full">
-                    <div className="flex justify-between items-start mb-4">
-                        <span className="bg-indigo-600 text-white text-xs font-semibold px-2 py-1 rounded-full">
-                            {thisPostDetail.category?.name || 'Uncategorized'}
-                        </span>
-                        <span className="text-gray-400 text-sm">
-                            {new Date(thisPostDetail.created_at).toLocaleDateString()}
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 pb-4 border-b border-gray-700">
+                        <div className="flex items-center flex-col mb-2 sm:mb-0">
+                            <span className="font-semibold text-xl text-green-400 m mr-3">
+                                {thisPostDetail.user?.name || "Anonymous"}
+                            </span>
+                            <span className="text-gray-400 text-sm">
+                                {format(
+                                    new Date(thisPostDetail.created_at),
+                                    "MMMM d, yyyy"
+                                )}
+                            </span>
+                        </div>
+                        <span className="bg-indigo-600 text-xl text-white  font-semibold px-2 py-1 rounded-full">
+                            {thisPostDetail.category?.name || "Uncategorized"}
                         </span>
                     </div>
-                    <h2 className="text-xl font-bold text-gray-100 mb-3 ">
+
+                    <div className="flex justify-end gap-4 items-center mb-4">
+                        <Link
+                            to={`/posts/${thisPostDetail.id}`}
+                            className="text-indigo-400 text-2xl hover:text-indigo-300 mr-3"
+                        >
+                            Edit
+                        </Link>
+                        <button
+                            onClick={() => onDeleteClick(u)}
+                            className="text-red-400 text-2xl hover:text-red-300"
+                        >
+                            Delete
+                        </button>
+                    </div>
+
+                    <h2 className="text-xl font-bold text-gray-100 mb-3">
                         {thisPostDetail.title}
                     </h2>
                     <p className="text-gray-400 mb-4">
                         {thisPostDetail.description}
                     </p>
-                    <div className="mt-auto flex items-center justify-between">
-                        <span className="font-semibold text-green-400 text-sm">
-                            {thisPostDetail.user?.name || 'Anonymous'}
-                        </span>
-                    </div>
                 </div>
             </div>
         </div>

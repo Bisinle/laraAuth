@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import axiosClient from "../../axiosClient";
 import { format } from "date-fns";
+import CreatPostButton from "./CreatPostButton";
 
 export default function PostDetail() {
     const { id } = useParams();
@@ -44,8 +45,12 @@ export default function PostDetail() {
 
     return (
         <div className="container mx-auto px-4 py-8">
+                <div className="flex  justify-end items-center p-3  mb-1">
+
+               <CreatPostButton  />
+                </div>
             <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                <div className="p-6 flex flex-col h-full">
+                <div className="p-6 flex flex-col h-full mt-5">
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 pb-4 border-b border-gray-700">
                         <div className="flex items-center flex-col mb-2 sm:mb-0">
                             <span className="font-semibold text-xl text-green-400 m mr-3">

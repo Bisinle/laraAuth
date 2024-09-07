@@ -20,7 +20,7 @@ export default function PostForm() {
     const [loading, setLoading] = useState(false);
     const { setNotificationOnDelete } = useStateContext();
     const { categories, categoryError, categoryLoading } = categoryContext();
-    console.log(categories);
+    const { currentUser } = useStateContext();
 
     if (id) {
         useEffect(() => {
@@ -41,31 +41,42 @@ export default function PostForm() {
 
     const onSubmit = (ev) => {
         ev.preventDefault();
-        // if (post.id) {
-        //   axiosClient.put(`/posts/${post.id}`, post)
-        //     .then(() => {
-        //       setNotificationOnDelete('Post was successfully updated')
-        //       navigate('/posts')
-        //     })
-        //     .catch(err => {
-        //       const response = err.response;
-        //       if (response && response.status === 422) {
-        //         setErrors(response.data.errors)
-        //       }
-        //     })
-        // } else {
-        //   axiosClient.post('/posts', post)
-        //     .then(() => {
-        //       setNotificationOnDelete('Post was successfully created')
-        //       navigate('/posts')
-        //     })
-        //     .catch(err => {
-        //       const response = err.response;
-        //       if (response && response.status === 422) {
-        //         setErrors(response.data.errors)
-        //       }
-        //     })
-        // }
+        // post.user_id = currentUser.id.toString();
+        const newPost = {
+            title: post.title,
+            description: post.description,
+            category_id: post.category_id,
+            user_id: currentUser.id.toString(),
+        };
+        console.log(newPost);
+
+        if (post.id) {
+            // axiosClient
+            //     .put(`/posts/${post.id}`, post)
+            //     .then(() => {
+            //         setNotificationOnDelete("Post was successfully updated");
+            //         navigate("/posts");
+            //     })
+            //     .catch((err) => {
+            //         const response = err.response;
+            //         if (response && response.status === 422) {
+            //             setErrors(response.data.errors);
+            //         }
+            //     });
+        } else {
+            axiosClient
+                .post("/posts", newPost)
+                .then(() => {
+                    setNotificationOnDelete("Post was successfully created");
+                    navigate("/posts");
+                })
+                .catch((err) => {
+                    const response = err.response;
+                    if (response && response.status === 422) {
+                        setErrors(response.data.errors);
+                    }
+                });
+        }
     };
 
     return (
@@ -88,17 +99,24 @@ export default function PostForm() {
                 {!loading && (
                     <form onSubmit={onSubmit} className=" p-5 bg-slate-500  ">
                         <label
-                            for="countries"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            htmlFor="categories"
+                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                         >
                             Select a Language
                         </label>
                         <select
-                            id="countries"
+                            id="categories"
                             className="bg-slate-600 mb-5 border-white text-white text-sm rounded-lg w-72 flex    p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            value={post.category_id}
+                            onChange={(ev) =>
+                                setPost({
+                                    ...post,
+                                    category_id: ev.target.value,
+                                })
+                            }
                         >
                             {categories.map((category) => (
-                                <option value={category.id}>
+                                <option key={category.id} value={category.id}>
                                     {category.name}
                                 </option>
                             ))}
@@ -111,6 +129,7 @@ export default function PostForm() {
                             }
                             placeholder="title"
                         />
+
                         <textarea
                             className=" bg-slate-600 resize rounded-md w-full text-white placeholder:text-white p-4 h-48"
                             value={post.description}

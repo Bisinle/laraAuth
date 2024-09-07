@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Api\Post;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Post\PostStoreRequest;
 use App\Http\Resources\Post\PostResources;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
@@ -44,24 +46,28 @@ class PostController extends Controller
 
 
 
-    public function store()
+    public function store(PostStoreRequest $request)
     {
         //* validate the request befor saving
-        request()->validate([
-            'title' => ['required', 'min:3'],
-            'description' => ['required', 'min:3'],
-            'category' => ['required', 'min:3'],
+        $data = $request->validated();
+        $post = Post::create($data);
+
+        return response(new PostResources($post), 201);
+        // request()->validate([
+        //     'title' => ['required', 'min:3'],
+        //     'description' => ['required', 'min:3'],
+        //     'category' => ['required', 'min:3'],
 
 
-        ]);
-        $categoryId =
-            $userId =
-            Post::create([
-                'title' => request('title'),
-                'description' => request('description'),
-                "category_id" => Category::where('name', request('category'))->value('id'),
-                "user_id" => User::inRandomOrder()->value('id'),
-            ]);
+        // ]);
+        // $categoryId =
+        //     $userId =
+        //     Post::create([
+        //         'title' => request('title'),
+        //         'description' => request('description'),
+        //         "category_id" => Category::where('name', request('category'))->value('id'),
+        //         "user_id" => User::inRandomOrder()->value('id'),
+        //     ]);
 
         // DB::table('posts')->insert([
         //     'title' => request('title'),

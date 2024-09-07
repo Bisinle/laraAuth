@@ -14,6 +14,8 @@ export default function PostDetail() {
             axiosClient
                 .get(`/posts/${id}`)
                 .then(({ data }) => {
+                    console.log(data);
+
                     setThisPostDetail(data.data); // Assuming the post is in data.data
                     setLoading(false);
                 })
@@ -63,7 +65,7 @@ export default function PostDetail() {
 
                     <div className="flex justify-end gap-4 items-center mb-4">
                         <Link
-                            to={`/posts/${thisPostDetail.id}`}
+                            to={`/posts/edit/${thisPostDetail.id}`}
                             className="text-indigo-400 text-2xl hover:text-indigo-300 mr-3"
                         >
                             Edit

@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axiosClient from "../../axiosClient";
 import { format } from "date-fns";
 import CreatPostButton from "./CreatPostButton";
+import { useStateContext } from "../../contexts/ContextProvider";
 
 export default function PostDetail() {
     const { id } = useParams();
+    const navigate = useNavigate();
     const [thisPostDetail, setThisPostDetail] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const { setNotificationOnDelete } = useStateContext();
 
     useEffect(() => {
         if (id) {
@@ -26,6 +29,18 @@ export default function PostDetail() {
                 });
         }
     }, [id]);
+
+    const onDeleteClick = (post) => {
+        // if (!window.confirm("Are you sure you want to delete this post?")) {
+        //   return
+        // }
+        axiosClient.delete(`/posts/${post.id}`).then(() => {
+            setNotificationOnDelete("User was successfully deleted");
+            navigate("/posts");
+            // const usersUpdated = users.filter(u => u.id !== user.id)
+            // setAllUsers(usersUpdated)
+        });
+    };
 
     if (loading) {
         return (
@@ -45,10 +60,9 @@ export default function PostDetail() {
 
     return (
         <div className="container mx-auto px-4 py-8">
-                <div className="flex  justify-end items-center p-3  mb-1">
-
-               <CreatPostButton  />
-                </div>
+            <div className="flex  justify-end items-center p-3  mb-1">
+                <CreatPostButton />
+            </div>
             <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
                 <div className="p-6 flex flex-col h-full mt-5">
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 pb-4 border-b border-gray-700">
@@ -76,7 +90,7 @@ export default function PostDetail() {
                             Edit
                         </Link>
                         <button
-                            onClick={() => onDeleteClick(u)}
+                            onClick={() => onDeleteClick(thisPostDetail)}
                             className="text-red-400 text-2xl hover:text-red-300"
                         >
                             Delete

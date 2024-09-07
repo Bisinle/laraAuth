@@ -22,9 +22,7 @@ export default function PostForm() {
     const { categories, categoryError, categoryLoading } = categoryContext();
     const { currentUser } = useStateContext();
 
-    if (!id) {
-        setPost({ ...post, user_id: currentUser.id.toString() });
-    }
+   
 
     useEffect(() => {
         if (id) {
@@ -52,7 +50,7 @@ export default function PostForm() {
 
         const newlyCreatedPost = {
             ...post,
-            user_id: currentUser.user_id,
+            user_id: currentUser.id,
         };
 
         if (post.id) {

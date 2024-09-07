@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useStateContext } from "../../contexts/ContextProvider";
 import PostItem from "./PostItem";
 import Pagination from "./Pagination";
+import CreatPostButton from "./CreatPostButton";
 
 export default function PostsList() {
     const [allPosts, setAllPosts] = useState([]);
@@ -16,7 +17,6 @@ export default function PostsList() {
     useEffect(() => {
         fetchPosts();
     }, []);
-
 
     //^ fetch posts function ------------------------------------------------------------------------->
     const fetchPosts = async (page = 1) => {
@@ -56,9 +56,7 @@ export default function PostsList() {
                         <h1 className=" font-bold text-3xl text-white">
                             All Posts
                         </h1>
-                        <Link to='/posts/create' className=" font-bold text-xl text-white  rounded-md px-3 flex justify-center items-center bg-indigo-600 ">
-                            Create Post
-                        </Link>
+                        <CreatPostButton />
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         {allPosts.map((post) => (

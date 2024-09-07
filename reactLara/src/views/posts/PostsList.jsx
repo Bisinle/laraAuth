@@ -17,7 +17,6 @@ export default function PostsList() {
         fetchPosts();
     }, []);
 
-    console.log(allPosts);
 
     //^ fetch posts function ------------------------------------------------------------------------->
     const fetchPosts = async (page = 1) => {
@@ -32,12 +31,10 @@ export default function PostsList() {
             );
             setCurrentUserPosts(userPosts);
             setAllPosts(data.data);
-            console.log(data.meta);
             setMeta(data.meta);
         } catch (err) {
             setLoading(false);
             setError("Failed to fetch posts");
-            console.error(err);
         }
     };
 
@@ -54,13 +51,23 @@ export default function PostsList() {
                     <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
                 </div>
             ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {allPosts.map((post) => (
-                        <PostItem key={post.id} post={post} />
-                    ))}
+                <div className=" flex flex-col gap-3">
+                    <div className=" flex justify-between gap-3">
+                        <h1 className=" font-bold text-3xl text-white">
+                            All Posts
+                        </h1>
+                        <Link to='/posts/create' className=" font-bold text-xl text-white  rounded-md px-3 flex justify-center items-center bg-indigo-600 ">
+                            Create Post
+                        </Link>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {allPosts.map((post) => (
+                            <PostItem key={post.id} post={post} />
+                        ))}
+                    </div>
                 </div>
             )}
-            
+
             {meta && <Pagination meta={meta} onPageChange={onPageChange} />}
         </div>
     );

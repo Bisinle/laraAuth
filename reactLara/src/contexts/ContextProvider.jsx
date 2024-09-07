@@ -7,10 +7,12 @@ const StateContext = createContext({
     setToken: () => {},
     setCurrentUserPosts: () => {},
     setNotificationOnDelete: () => {},
+    setAllCategories: () => {},
 });
 
 export const ContextProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState({});
+    const [allCategories, setAllCategories] = useState([]);
     const [token, setToken] = useState(localStorage.getItem("ACCESS_TOKEN"));
     const [notification, setNotification] = useState("");
     const [currentUserPosts, setCurrentUserPosts] = useState({});
@@ -35,14 +37,16 @@ export const ContextProvider = ({ children }) => {
     return (
         <StateContext.Provider
             value={{
-                currentUser,
                 token,
+                notification,
+                currentUser,
                 setCurrentUser,
+                currentUserPosts,
+                allCategories,
                 setToken: setTokenAndLocalStorage,
                 setNotificationOnDelete,
-                notification,
                 setCurrentUserPosts,
-                currentUserPosts,
+                setAllCategories,
             }}
         >
             {children}

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\Category\CategoryController;
 use App\Http\Controllers\Api\Post\PostController;
 use App\Http\Controllers\Api\User\UserController;
 use App\Models\User;
@@ -19,6 +20,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     Route::apiResource('/users', UserController::class);
     Route::apiResource('/posts', PostController::class);
+    Route::apiResource('/categories', CategoryController::class);
 });
 
 Route::post('/login', [AuthController::class, 'login']);

@@ -10,6 +10,7 @@ import UserEdit from "./views/users/UserEdit";
 import UserForm from "./views/users/UserForm";
 import PostsList from "./views/posts/PostsList";
 import PostDetail from "./views/posts/PostDetail";
+import PostForm from "./views/posts/PostForm";
 
 const router = createBrowserRouter([
     {
@@ -46,6 +47,16 @@ const router = createBrowserRouter([
                 path: "/posts/:id",
                 element: <PostDetail />,
             },
+            ,
+            {
+                path: "/posts/edit/:id",
+                element: <PostForm key="postUpdate" />,
+            },
+            {
+                path: "/posts/create",
+                element: <PostForm key="postCreate" />,
+            },
+           
         ],
     },
     {

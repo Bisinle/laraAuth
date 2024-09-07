@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const Pagination = ({ meta, onPageChange }) => {
@@ -8,6 +8,20 @@ const Pagination = ({ meta, onPageChange }) => {
     const currentPage = parseInt(queryParams.get("page") || "1", 10);
     const totalPages = meta.last_page;
 
+    useEffect(() => {
+        const queryParams = new URLSearchParams(location.search);
+        const urlPage = parseInt(queryParams.get('page') || '1', 10);
+      
+        // If the URL page doesn't match the current data page, update the URL
+        if (urlPage !== meta.current_page) {
+          navigate(`?page=${meta.current_page}`, { replace: true });
+        }
+      
+        // If the current page is greater than the last page, go to the last page
+        if (meta.current_page > meta.last_page) {
+          onPageChange(meta.last_page);
+        }
+      }, [meta, location.search, navigate, onPageChange]);
     const renderPageNumbers = () => {
         const pageNumbers = [];
         const maxVisiblePages = 5; // Reduced to account for the "First" button

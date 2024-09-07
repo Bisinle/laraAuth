@@ -87,8 +87,8 @@ export default function PostForm() {
     return (
         <>
             {post.id && (
-                <h1 className=" font-bold text-2xl ">
-                    Update post: {post.title}
+                <h1 className=" font-bold text-2xl text-white mb-5">
+                    Update post: <span className=" underline text-indigo-400">{post.title}</span>
                 </h1>
             )}
             {!post.id && <h1 className=" font-bold text-2xl ">New post</h1>}

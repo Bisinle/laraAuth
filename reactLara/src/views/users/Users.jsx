@@ -3,11 +3,14 @@ import axiosClient from "../../axiosClient";
 import { Link } from "react-router-dom";
 import { useStateContext } from "../../contexts/ContextProvider";
 import Pagination from "../posts/Pagination";
+import DeleteConfirmation from "../../components/DeleteConfirmation";
 
 export default function Users() {
     const [allUsers, setAllUsers] = useState([]);
     const [loading, setLoading] = useState(false);
     const [meta, setMeta] = useState(null);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [userToDelete, setUserToDelete] = useState(null);
     const { setNotificationOnDelete } = useStateContext();
 
     useEffect(() => {
@@ -15,23 +18,36 @@ export default function Users() {
     }, []);
 
     const onDeleteClick = (user) => {
+        setUserToDelete(user);
+        setIsDeleteModalOpen(true);
         // if (!window.confirm("Are you sure you want to delete this user?")) {
         //   return
         // }
-        axiosClient.delete(`/users/${user.id}`).then(() => {
-            setNotificationOnDelete("User was successfully deleted");
-            getAllUsers();
-            // const usersUpdated = users.filter(u => u.id !== user.id)
-            // setAllUsers(usersUpdated)
-        });
+        // axiosClient.delete(`/users/${user.id}`).then(() => {
+        //     setNotificationOnDelete("User was successfully deleted");
+        //     getAllUsers();
+        //     // const usersUpdated = users.filter(u => u.id !== user.id)
+        //     // setAllUsers(usersUpdated)
+        // });
+        // return <DeleteConfirmation />;
     };
 
-
+    const handleDeleteConfirm = () => {
+        if (userToDelete) {
+            axiosClient.delete(`/users/${userToDelete.id}`).then(() => {
+                setNotificationOnDelete("User was successfully deleted");
+                getAllUsers();
+                setIsDeleteModalOpen(false);
+            });
+        }
+    };
     const getAllUsers = async (page = 1) => {
         try {
             const { data } = await axiosClient.get(`/users?page=${page}`);
             setLoading(false);
             setAllUsers(data.data);
+            console.log(data.data);
+
             setMeta(data.meta);
         } catch (err) {
             setLoading(false);
@@ -39,9 +55,6 @@ export default function Users() {
             console.error(err);
         }
     };
-
-
-  
 
     //^ each time the page number changes, update the ------------------------------------------------>
     //^ below function and pass the new page number to fetposts
@@ -126,7 +139,15 @@ export default function Users() {
                     </table>
                 )}
             </div>
-                {meta && <Pagination meta={meta} onPageChange={onPageChange} />}
+            {meta && <Pagination meta={meta} onPageChange={onPageChange} />}
+            <DeleteConfirmation
+                isOpen={isDeleteModalOpen}
+                onClose={() => setIsDeleteModalOpen(false)}
+                onConfirm={handleDeleteConfirm}
+                itemName={
+                    userToDelete ? `user ${userToDelete.name}` : "this user"
+                }
+            />
         </div>
     );
 }

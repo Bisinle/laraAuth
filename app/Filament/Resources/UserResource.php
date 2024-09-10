@@ -60,7 +60,11 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('id'),
+                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('email'),
+                // Tables\Columns\TextColumn::make('created_at'),
+
             ])
             ->filters([
                 //
@@ -78,7 +82,7 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\PostsRelationManager::class,
         ];
     }
 

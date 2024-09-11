@@ -22,8 +22,10 @@ class PostsRelationManager extends RelationManager
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Textarea::make('description')
-                    ->required()
-                    ->maxLength(255),
+                    ->required(),
+                Forms\Components\Select::make('category_id')
+                    ->label('Category')
+                    ->relationship('category', 'name')
             ]);
     }
 

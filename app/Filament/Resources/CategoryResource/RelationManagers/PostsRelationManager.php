@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\UserResource\RelationManagers;
+namespace App\Filament\Resources\CategoryResource\RelationManagers;
 
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -18,10 +18,7 @@ class PostsRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('description')
+                Forms\Components\TextInput::make('title,description,created_at')
                     ->required()
                     ->maxLength(255),
             ]);
@@ -30,37 +27,23 @@ class PostsRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('title')
+            ->recordTitleAttribute('title,description,created_at')
             ->columns([
-                Tables\Columns\TextColumn::make('title')->limit(10)
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('description')
-                    ->limit(50),
-                Tables\Columns\TextColumn::make('category.name')
-                    ->searchable()
-                    ->sortable(),
-                // Tables\Columns\TextColumn::make('created_at')
-                //     ->dateTime()
-                //     ->searchable()
-                //     ->sortable()
-                //     ->toggleable(isToggledHiddenByDefault: false),
+                Tables\Columns\TextColumn::make('title,description,created_at'),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make(),
-
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
-
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-
                 ]),
             ]);
     }

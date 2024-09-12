@@ -23,7 +23,14 @@ class Post extends Model
         return $this->belongsToMany(Tag::class, 'post_tag');
     }
 
-    
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($post) {
+            $post->tags()->detach();
+        });
+    }
     protected $fillable = [
         "title",
         "description",

@@ -20,7 +20,7 @@ export default function Login() {
         axiosClient
             .post("/login", credentials)
             .then(({ data }) => {
-                console.log(data.user.posts.category);
+                // console.log(data.user.posts.category);
                 localStorage.setItem("user", JSON.stringify(data.user));
                 setCurrentUser(data.user);
                 setToken(data.token);

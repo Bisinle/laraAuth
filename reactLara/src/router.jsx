@@ -1,12 +1,10 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import Login from "./views/Login";
 import Signup from "./views/Signup";
-import Users from "./views/users/Users";
 import NotFound from "./views/NotFound";
 import DefaultLayout from "./components/DefaultLayout";
 import GuestLayout from "./components/GuestLayout";
 import DashBoard from "./views/DashBoard";
-import UserForm from "./views/users/UserForm";
 import PostsList from "./views/posts/PostsList";
 import PostDetail from "./views/posts/PostDetail";
 import PostForm from "./views/posts/PostForm";
@@ -18,25 +16,12 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "/",
-                element: <Navigate to="/users" />,
-            },
-            {
-                path: "/users",
-                element: <Users />,
+                element: <Navigate to="/posts" />,
             },
             {
                 path: "/dashBoard",
                 element: <DashBoard />,
             },
-            {
-                path: "/users/new",
-                element: <UserForm key="userCreate" />,
-            },
-            {
-                path: "/users/:id",
-                element: <UserForm key="userUpdate" />,
-            },
-            ,
             {
                 path: "/posts",
                 element: <PostsList />,

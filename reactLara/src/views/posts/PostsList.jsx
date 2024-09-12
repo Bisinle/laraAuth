@@ -47,29 +47,29 @@ export default function PostsList() {
     console.log(allPosts);
 
     return (
-        <div className="container mx-auto px-4 py-8 ">
-            {loading ? (
-                <div className="flex justify-center items-center h-64">
-                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+        <div className="container mx-auto px-4 py-8 bg-gray-100">
+        {loading ? (
+            <div className="flex justify-center items-center h-64">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600"></div>
+            </div>
+        ) : (
+            <div className="flex flex-col gap-3">
+                <div className="flex justify-between gap-3">
+                    <h1 className="font-bold text-3xl text-indigo-900">
+                        All Posts
+                    </h1>
+                    <CreatPostButton />
                 </div>
-            ) : (
-                <div className=" flex flex-col gap-3">
-                    <div className=" flex justify-between gap-3">
-                        <h1 className=" font-bold text-3xl text-white">
-                            All Posts
-                        </h1>
-                        <CreatPostButton />
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {allPosts.map((post) => (
-                            <PostItem key={post.id} post={post} />
-                        ))}
-                    </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {allPosts.map((post) => (
+                        <PostItem key={post.id} post={post} />
+                    ))}
                 </div>
-            )}
-
-            {meta && <Pagination meta={meta} onPageChange={onPageChange} />}
-        </div>
+            </div>
+        )}
+    
+        {meta && <Pagination meta={meta} onPageChange={onPageChange} />}
+    </div>
     );
 }
 

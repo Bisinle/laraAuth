@@ -66,57 +66,56 @@ const Pagination = ({ meta, onPageChange }) => {
     };
 
     return (
-        <div className="flex gap-4  justify-center mt-6  rounded-sm w-auto justify-self-end p-2 ">
-            <div className=" border rounded-md p-2">
+       <div className="flex gap-4 justify-center mt-6 rounded-sm w-auto justify-self-end p-2  ">
+    <div className="border  rounded-md p-2">
+        <button
+            className="transition-transform duration-300 ease-in-out hover:scale-105 px-3 py-2 hover:bg-indigo-100 text-indigo-600 font-bold rounded-sm disabled:opacity-50 disabled:cursor-not-allowed"
+            onClick={() => handlePageChange(1)}
+            disabled={currentPage === 1}
+        >
+            First
+        </button>
+        <button
+            className="transition-transform duration-300 ease-in-out hover:scale-105 px-3 py-2 hover:bg-indigo-100 text-indigo-600 font-bold rounded-sm disabled:opacity-50 disabled:cursor-not-allowed"
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+        >
+            Prev
+        </button>
 
+        {renderPageNumbers().map((number, index) => (
             <button
-                className="  transition-transform duration-300 ease-in-out hover:scale-105 px-3 py-2 hover:bg-gray-800  text-indigo-300 font-bold  rounded-sm "
-                onClick={() => handlePageChange(1)}
-                disabled={currentPage === 1}
+                key={index}
+                onClick={() =>
+                    typeof number === "number" && handlePageChange(number)
+                }
+                disabled={number === currentPage || number === "..."}
+                className={
+                    number === currentPage
+                        ? "bg-indigo-600 transition-transform duration-300 ease-in-out hover:scale-105 px-3 py-2 hover:bg-indigo-700 text-white rounded-sm"
+                        : "transition-transform duration-300 ease-in-out hover:scale-105 px-3 py-2 hover:bg-indigo-100 text-indigo-600 font-bold rounded-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                }
             >
-                First
+                {number}
             </button>
-            <button
-                className="  transition-transform duration-300 ease-in-out hover:scale-105 px-3 py-2 hover:bg-gray-800  text-indigo-300 font-bold  rounded-sm "
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-            >
-               Prev
-            </button>
+        ))}
 
-            {renderPageNumbers().map((number, index) => (
-                <button
-                    key={index}
-                    onClick={() =>
-                        typeof number === "number" && handlePageChange(number)
-                    }
-                    disabled={number === currentPage || number === "..."}
-                    className={
-                        number === currentPage
-                            ? "bg-indigo-600 transition-transform duration-300 ease-in-out hover:scale-105 px-3 py-2 hover:bg-indigo-700  text-white  rounded-sm"
-                            : "transition-transform duration-300 ease-in-out hover:scale-105 px-3 py-2 hover:bg-gray-800  text-indigo-300 font-bold  rounded-sm "
-                    }
-                >
-                    {number}
-                </button>
-            ))}
-
-            <button
-                className="  transition-transform duration-300 ease-in-out hover:scale-105 px-3 py-2 hover:bg-gray-800  text-indigo-300 font-bold  rounded-sm "
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-            >
-                Next
-            </button>
-            <button
-                className="  transition-transform duration-300 ease-in-out hover:scale-105 px-3 py-2 hover:bg-gray-800  text-indigo-300 font-bold  rounded-sm "
-                onClick={() => handlePageChange(totalPages)}
-                disabled={currentPage === totalPages}
-            >
-                Last
-            </button>
-            </div>
-        </div>
+        <button
+            className="transition-transform duration-300 ease-in-out hover:scale-105 px-3 py-2 hover:bg-indigo-100 text-indigo-600 font-bold rounded-sm disabled:opacity-50 disabled:cursor-not-allowed"
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+        >
+            Next
+        </button>
+        <button
+            className="transition-transform duration-300 ease-in-out hover:scale-105 px-3 py-2 hover:bg-indigo-100 text-indigo-600 font-bold rounded-sm disabled:opacity-50 disabled:cursor-not-allowed"
+            onClick={() => handlePageChange(totalPages)}
+            disabled={currentPage === totalPages}
+        >
+            Last
+        </button>
+    </div>
+</div>
     );
 };
 

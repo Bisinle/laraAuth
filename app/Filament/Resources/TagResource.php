@@ -20,6 +20,10 @@ class TagResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-tag';
     protected static  ?int $navigationSort = 5;
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
 
     public static function form(Form $form): Form
     {

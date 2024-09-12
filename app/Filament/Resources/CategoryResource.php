@@ -20,9 +20,10 @@ class CategoryResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-squares-2x2';
     protected static  ?int $navigationSort = 4;
+    protected static ?string $navigationGroup = 'Administration';
 
     public static function getNavigationBadge(): ?string
-    {   
+    {
         return static::getModel()::count();
     }
 

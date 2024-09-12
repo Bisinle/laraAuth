@@ -19,6 +19,7 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
     protected static  ?int $navigationSort = 1;
+    protected static ?string $navigationGroup = 'Administration';
     public static function getNavigationBadge(): ?string
     {
         return static::getModel()::count();

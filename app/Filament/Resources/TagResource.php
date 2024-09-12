@@ -19,6 +19,7 @@ class TagResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-tag';
     protected static  ?int $navigationSort = 5;
+    protected static ?string $navigationGroup = 'Administration';
 
     public static function getNavigationBadge(): ?string
     {

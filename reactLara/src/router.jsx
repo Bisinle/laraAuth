@@ -8,6 +8,7 @@ import DashBoard from "./views/DashBoard";
 import PostsList from "./views/posts/PostsList";
 import PostDetail from "./views/posts/PostDetail";
 import PostForm from "./views/posts/PostForm";
+import Settings from "./views/Settings";
 
 const router = createBrowserRouter([
     {
@@ -40,7 +41,10 @@ const router = createBrowserRouter([
                 path: "/posts/create",
                 element: <PostForm key="postCreate" />,
             },
-           
+            {
+                path: "/settings",
+                element: <Settings  />,
+            },
         ],
     },
     {

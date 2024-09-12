@@ -1,29 +1,27 @@
 <?php
 
-
-
-
-
-
-
-use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
-use App\Models\JobListing;
-use App\Models\User;
+use App\Http\Controllers\Api\Post\PostController;
+use App\Http\Controllers\Api\User\UserController;
+use App\Http\Controllers\Api\Category\CategoryController;
+use Illuminate\Routing\RouteGroup;
 
+// Application routes
+Route::get('/', function () {
+    return view('home');
+});
 
-// Route::view('/', 'home');
-Route::get('/', [PostController::class, 'home'])->name('home');
-// Route::get('/search', [PostController::class, 'search'])->name('search');
-// Route::view('/contact', 'contact');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+// Users routes
+Route::resource('users', UserController::class);
+
+// Posts routes
 Route::resource('posts', PostController::class);
 
-// Route::controller(PostController::class)->group(function () {
-//     Route::get('/jobs',  'index');
-//     Route::get('/jobs/create',  'create');
-//     Route::post('/jobs',  'store');
-//     Route::get('/jobs/{job}',  'show');
-//     Route::get('/jobs/{job}/edit',  'edit');
-//     Route::patch('/jobs/{job}',  'update');
-//     Route::delete('/jobs/{job}',  'destroy');
-// });
+// Categories routes
+Route::resource('categories', CategoryController::class);
+
+// Filament will handle its own routes

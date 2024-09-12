@@ -1,9 +1,11 @@
-import React from 'react'
+import React from "react";
+import { useStateContext } from "../../contexts/ContextProvider";
 
 function UserPosts() {
-  return (
-    <div>UserPosts</div>
-  )
+  const { currentUserPosts } = useStateContext();
+  console.log(currentUserPosts);
+
+  return <div>UserPosts</div>;
 }
 
-export default UserPosts
+export default UserPosts;

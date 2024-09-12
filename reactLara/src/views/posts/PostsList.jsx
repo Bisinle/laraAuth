@@ -44,6 +44,8 @@ export default function PostsList() {
         fetchPosts(pageNumber);
     };
 
+    console.log(allPosts);
+
     return (
         <div className="container mx-auto px-4 py-8 ">
             {loading ? (

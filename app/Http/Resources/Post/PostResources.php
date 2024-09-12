@@ -18,11 +18,17 @@ class PostResources extends JsonResource
             "id" => $this->id,
             "title" => $this->title,
             "description" => $this->description,
-             'category' => [
+            'category' => [
                 'id' => $this->category?->id,
                 'name' => $this->category?->name,
             ],
             "user" => $this->user,
+            "tags" => $this->tags->map(function ($tag) {
+                return [
+                    'id' => $tag->id,
+                    'name' => $tag->name,
+                ];
+            }),
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
 
 

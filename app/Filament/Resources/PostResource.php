@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PostResource\Pages;
 use App\Filament\Resources\PostResource\RelationManagers;
 use App\Models\Post;
+use App\Models\Tag;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -49,6 +50,13 @@ class PostResource extends Resource
                     ->searchable()
                     ->preload()
                     ->required(),
+                Forms\Components\Select::make('tags')
+                    ->label('Tags')
+                    ->multiple()
+                    ->options(Tag::orderBy('name')->distinct()->pluck('name', 'id'))->searchable()
+                    ->preload()
+                    ->required()
+                    ->native(false),
             ]);
     }
 

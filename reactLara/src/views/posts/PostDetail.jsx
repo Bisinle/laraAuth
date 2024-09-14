@@ -13,7 +13,7 @@ export default function PostDetail() {
   const [thisPostDetail, setThisPostDetail] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { setNotificationOnDelete } = useStateContext();
+  const { showNotification } = useStateContext();
 
   useEffect(() => {
     if (id) {
@@ -33,11 +33,9 @@ export default function PostDetail() {
   }, [id]);
 
   const onDeleteClick = (post) => {
-   
     axiosClient.delete(`/posts/${post.id}`).then(() => {
-      setNotificationOnDelete("User was successfully deleted");
+      showNotification("User was successfully deleted");
       navigate("/posts");
-     
     });
   };
 

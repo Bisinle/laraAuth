@@ -133,14 +133,14 @@ export default function PostForm() {
               </p>
             )}
             <input
-              className="bg-white border border-gray-300 shadow-sm  rounded-md w-full text-white placeholder:text-gray-600 p-4 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out"
+              className="bg-white border border-gray-300 shadow-sm  rounded-md w-full text-black placeholder:text-gray-600 p-4 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out"
               value={post.title}
               onChange={(ev) => setPost({ ...post, title: ev.target.value })}
               placeholder="title"
             />
 
             <textarea
-              className=" bg-white resize rounded-md w-full text-white placeholder:text-gray-600 border border-gray-300 shadow-sm p-4 h-48 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out"
+              className=" bg-white resize rounded-md w-full text-black placeholder:text-gray-600 border border-gray-300 shadow-sm p-4 h-48 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out"
               value={post.description}
               onChange={(ev) =>
                 setPost({
@@ -151,7 +151,7 @@ export default function PostForm() {
               placeholder="description"
             />
 
-            <button className="btn">Save</button>
+            <button className=" bg-indigo-500 border border-indigo-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:text-white hover:bg-indigo-600 focus:outline-none focus:shadow-outline ">Save</button>
           </form>
         )}
       </div>

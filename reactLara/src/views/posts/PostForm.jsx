@@ -71,7 +71,7 @@ export default function PostForm() {
         .post("/posts", newlyCreatedPost)
         .then(() => {
           showNotification("Post was successfully created");
-          navigate("/posts");
+          navigate("/home");
         })
         .catch((err) => {
           const response = err.response;
@@ -101,14 +101,14 @@ export default function PostForm() {
           </div>
         )}
         {!loading && (
-          <form onSubmit={onSubmit} className=" p-5 bg-slate-500  ">
+          <form onSubmit={onSubmit} className=" p-5 bg-white  ">
             {!post.category_id && (
               <p className="text-red-500">Please select a category</p>
             )}
             {categories.length > 0 ? (
               <select
                 id="categories"
-                className="bg-slate-600 mb-5 border-white text-white text-sm rounded-lg w-72 flex p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-white border border-gray-300 text-gray-700 text-sm rounded-lg w-full md:w-72 p-2.5 mb-3 shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out"
                 value={post.category_id || ""}
                 onChange={(ev) =>
                   setPost({
@@ -133,14 +133,14 @@ export default function PostForm() {
               </p>
             )}
             <input
-              className="bg-slate-600 rounded-md w-full text-white placeholder:text-white p-4"
+              className="bg-white border border-gray-300 shadow-sm  rounded-md w-full text-white placeholder:text-gray-600 p-4 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out"
               value={post.title}
               onChange={(ev) => setPost({ ...post, title: ev.target.value })}
               placeholder="title"
             />
 
             <textarea
-              className=" bg-slate-600 resize rounded-md w-full text-white placeholder:text-white p-4 h-48"
+              className=" bg-white resize rounded-md w-full text-white placeholder:text-gray-600 border border-gray-300 shadow-sm p-4 h-48 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out"
               value={post.description}
               onChange={(ev) =>
                 setPost({

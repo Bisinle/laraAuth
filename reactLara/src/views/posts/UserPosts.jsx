@@ -8,7 +8,7 @@ function UserPosts() {
   const [loading, setLoading] = useState(true);
   const [userPosts, setUserPosts] = useState([]);
   const [error, setError] = useState(null);
-console.log(currentUser);
+  console.log(currentUser);
 
   const fetchUserPosts = useCallback(async () => {
     if (!currentUser || !currentUser.id) {
@@ -20,16 +20,17 @@ console.log(currentUser);
     try {
       setLoading(true);
       const response = await axiosClient.get(`/users/${currentUser.id}`);
-      
+
       if (response.data && response.data.data.posts) {
         setUserPosts(response.data.data.posts);
         // console.log(response.data.data);
-        
       } else {
         setError("No posts found");
       }
     } catch (err) {
-      setError("Failed to fetch posts: " + (err.response?.data?.message || err.message));
+      setError(
+        "Failed to fetch posts: " + (err.response?.data?.message || err.message)
+      );
     } finally {
       setLoading(false);
     }
@@ -40,7 +41,7 @@ console.log(currentUser);
   }, []);
 
   console.log(userPosts);
-  
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -53,9 +54,14 @@ console.log(currentUser);
     return <div className="text-center text-red-500 mt-4">{error}</div>;
   }
 
-  // if (!userPosts || userPosts.length === 0) {
-  //   return <div className="text-center mt-4">No posts found.</div>;
-  // }
+  if (!userPosts || userPosts.length === 0) {
+    return (
+      <div  className=" flex justify-between ">
+        <p className="flex justify-self-center items-center mt-4 text-red-500 text-3xl font-bold ">No posts found.</p>
+         <CreatPostButton />
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-8 bg-gray-100">

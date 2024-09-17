@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axiosClient from "../../axiosClient";
 import { format } from "date-fns";
-import CreatPostButton from "./CreatPostButton";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { FaEdit } from "react-icons/fa";
@@ -58,7 +57,7 @@ export default function PostDetail() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mt-auto flex mb-5 justify-end">
-        <CreatPostButton />
+     
       </div>
       <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
         <div className="p-6 flex flex-col h-full">

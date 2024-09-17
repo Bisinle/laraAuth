@@ -68,7 +68,7 @@ function UserPosts() {
       <div className="flex flex-col gap-3">
         <div className="flex justify-between gap-3">
           <h1 className="font-bold text-3xl text-indigo-900">My Posts ({userPosts.length})</h1>
-          <CreatPostButton />
+  
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {userPosts.map((post) => (

@@ -3,7 +3,6 @@ import axiosClient from "../../axiosClient";
 import { useStateContext } from "../../contexts/ContextProvider";
 import PostItem from "./PostItem";
 import Pagination from "./Pagination";
-import CreatePostButton from "../posts/CreatPostButton";
 
 export default function PostsList() {
   const [allPosts, setAllPosts] = useState([]);
@@ -48,7 +47,7 @@ export default function PostsList() {
   if (error) {
     return <div className="text-red-500 text-center">{error}</div>;
   }
-console.log(allPosts);
+  console.log(allPosts);
 
   return (
     <div className="container mx-auto px-4 py-8 bg-gray-100">
@@ -60,11 +59,11 @@ console.log(allPosts);
         <div className="flex flex-col gap-3">
           <div className="flex justify-between gap-3">
             <h1 className="font-bold text-3xl text-indigo-900">All Posts</h1>
-            <CreatePostButton />
+           
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {allPosts.map((post) => (
-              <PostItem key={post.id} post={post} userName={currentUser.name}/>
+              <PostItem key={post.id} post={post} userName={currentUser.name} />
             ))}
           </div>
         </div>

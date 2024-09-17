@@ -24,7 +24,7 @@ export default function PostItem({ post,userName }) {
             </Link>
             <div className="mt-auto flex items-center justify-between">
               <span className="font-semibold text-indigo-600 text-sm">
-                by {userName}
+                by {post.user.id===JSON.parse(localStorage.getItem("user")).id ? userName : post.user.name}
               </span>
               <Link
                 to={`/posts/${post.id}`}

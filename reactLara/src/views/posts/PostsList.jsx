@@ -10,6 +10,7 @@ export default function PostsList() {
   const [error, setError] = useState(null);
   const { setUserPosts, setLoading, loading } = useStateContext();
   const [meta, setMeta] = useState(null);
+  const currentUser = JSON.parse(localStorage.getItem("user"));
 
   const fetchPosts = useCallback(
     async (page = 1) => {
@@ -17,7 +18,6 @@ export default function PostsList() {
         setLoading(true);
         const { data } = await axiosClient.get(`/posts?page=${page}`);
 
-        const currentUser = JSON.parse(localStorage.getItem("user"));
         const userPosts = data.data.filter(
           (post) => post.user.id === currentUser.id
         );
@@ -48,6 +48,7 @@ export default function PostsList() {
   if (error) {
     return <div className="text-red-500 text-center">{error}</div>;
   }
+console.log(allPosts);
 
   return (
     <div className="container mx-auto px-4 py-8 bg-gray-100">
@@ -63,7 +64,7 @@ export default function PostsList() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {allPosts.map((post) => (
-              <PostItem key={post.id} post={post} />
+              <PostItem key={post.id} post={post} userName={currentUser.name}/>
             ))}
           </div>
         </div>

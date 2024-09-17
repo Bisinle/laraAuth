@@ -66,20 +66,23 @@ export default function PostDetail() {
             <span className="bg-indigo-600 text-white text-sm font-semibold px-3 py-1 rounded-full">
               {thisPostDetail.category?.name || "Uncategorized"}
             </span>
-            <div className="flex items-center space-x-4">
-              <Link
-                to={`/posts/edit/${thisPostDetail.id}`}
-                className="text-indigo-600 hover:text-indigo-800 font-medium text-2xl"
-              >
-                <FaEdit />
-              </Link>
-              <button
-                onClick={() => onDeleteClick(thisPostDetail)}
-                className="text-red-600 hover:text-red-800 font-medium text-2xl"
-              >
-                <RiDeleteBin6Line />
-              </button>
-            </div>
+            {thisPostDetail.user?.id ===
+              JSON.parse(localStorage.getItem("user")).id && (
+              <div className="flex items-center space-x-4">
+                <Link
+                  to={`/posts/edit/${thisPostDetail.id}`}
+                  className="text-indigo-600 hover:text-indigo-800 font-medium text-2xl"
+                >
+                  <FaEdit />
+                </Link>
+                <button
+                  onClick={() => onDeleteClick(thisPostDetail)}
+                  className="text-red-600 hover:text-red-800 font-medium text-2xl"
+                >
+                  <RiDeleteBin6Line />
+                </button>
+              </div>
+            )}
           </div>
 
           <h2 className="text-3xl font-bold text-gray-900 mb-4">

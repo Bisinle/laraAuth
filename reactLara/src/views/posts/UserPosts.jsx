@@ -67,7 +67,7 @@ function UserPosts() {
     <div className="container mx-auto px-4 py-8 bg-gray-100">
       <div className="flex flex-col gap-3">
         <div className="flex justify-between gap-3">
-          <h1 className="font-bold text-3xl text-indigo-900">My Posts</h1>
+          <h1 className="font-bold text-3xl text-indigo-900">My Posts ({userPosts.length})</h1>
           <CreatPostButton />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

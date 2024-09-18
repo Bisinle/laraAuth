@@ -29,6 +29,7 @@ class UserResource extends JsonResource
                     'description' => $post->description,
                     'category' => $post->category,
                     'tags' => $post->tags,
+                    'comments' => $post->comments,
                     'user_id' => $post->user_id,
                 ];
             }),

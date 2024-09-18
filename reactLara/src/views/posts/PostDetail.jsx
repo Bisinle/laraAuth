@@ -10,6 +10,7 @@ export default function PostDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [thisPostDetail, setThisPostDetail] = useState(null);
+  const [comments, setComments] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { showNotification } = useStateContext();
@@ -29,7 +30,23 @@ export default function PostDetail() {
           setLoading(false);
         });
     }
+    if (id) {
+      axiosClient
+        .get(`/comments`)
+        .then(({ data }) => {
+          console.log(data);
+
+          setComments(data.data); // Assuming the post is in data.data
+          setLoading(false);
+        })
+        .catch((err) => {
+          setError("Failed to fetch post");
+          setLoading(false);
+        });
+    }
   }, [id]);
+console.log(comments);
+
 
   const onDeleteClick = (post) => {
     axiosClient.delete(`/posts/${post.id}`).then(() => {

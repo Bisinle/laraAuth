@@ -8,7 +8,7 @@ function UserPosts() {
   const [loading, setLoading] = useState(true);
   const [userPosts, setUserPosts] = useState([]);
   const [error, setError] = useState(null);
-  console.log(currentUser);
+  // console.log(currentUser);
 
   const fetchUserPosts = useCallback(async () => {
     if (!currentUser || !currentUser.id) {

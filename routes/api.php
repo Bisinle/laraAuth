@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Category\CategoryController;
+use App\Http\Controllers\Api\Comment\CommentController;
 use App\Http\Controllers\Api\Post\PostController;
 use App\Http\Controllers\Api\User\UserPostController;
 use App\Http\Controllers\Api\User\UserController;
+
 // use App\Http\Resources\User\UserPostResource;
 // use App\Models\User;
 use Illuminate\Http\Request;
@@ -24,6 +26,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('/posts', PostController::class);
     Route::apiResource('/categories', CategoryController::class);
     Route::get('users/{user}/posts', [UserPostController::class, 'userPosts']);
+    Route::apiResource('/comments', CommentController::class);
 });
 
 Route::post('/login', [AuthController::class, 'login']);

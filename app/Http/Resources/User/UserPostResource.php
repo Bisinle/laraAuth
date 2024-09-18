@@ -20,6 +20,7 @@ class UserPostResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'category' => $this->category?->name,
+            'comments' => $this->comments,
             'tags' => $this->tags->map(function ($tag) {
                 return [
                     'id' => $tag->id,

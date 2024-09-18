@@ -4,7 +4,7 @@ import categoryContext from "../../contexts/categoryContext";
 
 export default function PostItem({ post, userName }) {
   //   const { categories, categoryError, categoryLoading } = categoryContext();
-  console.log(post);
+  // console.log(post);
 
   if (!post) {
     return <h1>loading</h1>;

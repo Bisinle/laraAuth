@@ -12,14 +12,12 @@ const Comment = ({ comment, replies, allComments }) => {
   return (
     <article className="p-6">
       <div className="flex flex-row gap-3   mb-4">
-        <div className="flex flex-row">
-          <img
-            className="w-10 h-10 rounded-full mr-4"
-            src={comment.user?.profile_photo_url || "/default-avatar.jpg"}
-            alt={comment.user?.name}
-          />
-          <h1>bossman</h1>
-        </div>
+        <img
+          className="w-10 h-10 rounded-full mr-4"
+          src={comment.user?.profile_photo_url || "/default-avatar.jpg"}
+        //   alt={comment.user?.name}
+        />
+
         <div>
           <h4 className="font-semibold text-indigo-600">
             {comment.user?.name}

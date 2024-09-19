@@ -23,7 +23,21 @@ class PostResources extends JsonResource
                 'name' => $this->category?->name,
             ],
             "user" => $this->user,
-            'comments' => $this->comments,
+            'comments' => $this->comments->map(function ($comment) {
+                return [
+                    'id' => $comment->id,
+                    'content' => $comment->content,
+                    'user' => $comment->user,
+                    'likes' => $comment->likes,
+                    'post_id' => $comment->post_id,
+                    'parent_id' => $comment->parent_id,
+                    'created_at' => $comment->created_at,
+                    'parent_id' => $comment->parent_id,
+
+
+
+                ];
+            }),
 
             "tags" => $this->tags->map(function ($tag) {
                 return [

@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateCommentRequest;
 use App\Http\Resources\Comment\CommentResource;
 use App\Models\Comment;
 use App\Models\Post;
+use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
@@ -15,13 +16,15 @@ class CommentController extends Controller
      * Display a listing of the resource.
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request, Post $post)
     {
-        try {
-            return CommentResource::collection(Comment::query()->latest()->paginate(9));
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+
+        $post_id = $post->id;
+        $post = Post::query()->find($post_id);
+
+        $comments = $post->comments()->with(['user'])->paginate($request->input('per_page', 15));
+        return CommentResource::collection($comments);
+      
     }
 
     /**

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Post\PostController;
 use App\Http\Controllers\Api\User\UserController;
 use App\Http\Controllers\Api\Category\CategoryController;
+use App\Http\Controllers\Api\Comment\CommentController;
 use Illuminate\Routing\RouteGroup;
 
 // Application routes
@@ -24,4 +25,4 @@ Route::resource('posts', PostController::class);
 // Categories routes
 Route::resource('categories', CategoryController::class);
 
-// Filament will handle its own routes
+Route::resource('comments', CommentController::class);

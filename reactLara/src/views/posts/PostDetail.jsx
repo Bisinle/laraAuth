@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { FaEdit } from "react-icons/fa";
+import PostComments from "./PostComments";
 
 export default function PostDetail() {
   const { id } = useParams();
@@ -30,23 +31,22 @@ export default function PostDetail() {
           setLoading(false);
         });
     }
-    if (id) {
-      axiosClient
-        .get(`/comments`)
-        .then(({ data }) => {
-          console.log(data);
+    // if (id) {
+    //   axiosClient
+    //     .get(`comments/{id}`)
+    //     .then(({ data }) => {
+    //       console.log(data);
 
-          setComments(data.data); // Assuming the post is in data.data
-          setLoading(false);
-        })
-        .catch((err) => {
-          setError("Failed to fetch post");
-          setLoading(false);
-        });
-    }
+    //       setComments(data.data); // Assuming the post is in data.data
+    //       setLoading(false);
+    //     })
+    //     .catch((err) => {
+    //       setError("Failed to fetch post");
+    //       setLoading(false);
+    //     });
+    // }
   }, [id]);
-console.log(comments);
-
+  // console.log(comments);
 
   const onDeleteClick = (post) => {
     axiosClient.delete(`/posts/${post.id}`).then(() => {
@@ -73,9 +73,7 @@ console.log(comments);
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="mt-auto flex mb-5 justify-end">
-     
-      </div>
+      <div className="mt-auto flex mb-5 justify-end"></div>
       <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
         <div className="p-6 flex flex-col h-full">
           <div className="flex justify-between items-center mb-4">
@@ -118,6 +116,7 @@ console.log(comments);
             {thisPostDetail.description}
           </p>
         </div>
+        <PostComments comments={thisPostDetail.comments} />
       </div>
     </div>
   );

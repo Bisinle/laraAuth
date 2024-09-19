@@ -26,8 +26,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('/posts', PostController::class);
     Route::apiResource('/categories', CategoryController::class);
     Route::get('users/{user}/posts', [UserPostController::class, 'userPosts']);
-    Route::apiResource('/comments', CommentController::class);
-});
+    Route::get('comments/{post}/', [CommentController::class, 'index']);});
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/signup', [AuthController::class, 'signup']);

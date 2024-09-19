@@ -21,6 +21,7 @@ const CommentList = ({ comments, userName, postId }) => {
             comment={comment}
             replies={comments.filter((reply) => reply.parent_id === comment.id)}
             allComments={comments}
+            likeCount={comment.likes}
           />
         ))}
       </div>

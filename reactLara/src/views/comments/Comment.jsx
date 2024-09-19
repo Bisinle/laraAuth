@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import CommentForm from "./CommentForm";
 import { format } from "date-fns";
+import {RiThumbUpLine} from 'react-icons/ri';
 
-const Comment = ({ comment, replies, allComments }) => {
+const Comment = ({ comment, replies, allComments,likeCount }) => {
   const [isReplying, setIsReplying] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -42,7 +43,15 @@ const Comment = ({ comment, replies, allComments }) => {
           >
             {isExpanded ? "Hide replies" : `Show ${replies.length} replies`}
           </button>
+          
         )}
+        <button
+            // onClick={toggleExpand}
+            className="text-indigo-500 hover:text-gray-700 font-medium text-sm flex justify-center items-center gap-1"
+          >
+            <RiThumbUpLine/>
+           {likeCount >=0 ? likeCount : 0}
+          </button>
       </div>
       {isReplying && (
         <div className="mt-4">
@@ -57,6 +66,7 @@ const Comment = ({ comment, replies, allComments }) => {
               comment={reply}
               replies={allComments.filter((r) => r.parent_id === reply.id)}
               allComments={allComments}
+              likeCount={reply.likes}
             />
           ))}
         </div>

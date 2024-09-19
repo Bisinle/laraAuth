@@ -5,7 +5,7 @@ import { format } from "date-fns";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { FaEdit } from "react-icons/fa";
-import PostComments from "./PostComments";
+import CommentList from "../comments/CommentList";
 
 export default function PostDetail() {
   const { id } = useParams();
@@ -116,7 +116,11 @@ export default function PostDetail() {
             {thisPostDetail.description}
           </p>
         </div>
-        <PostComments comments={thisPostDetail.comments} />
+        <CommentList
+          comments={thisPostDetail.comments}
+          userName={thisPostDetail.user?.name}
+          postId={thisPostDetail.id}
+        />
       </div>
     </div>
   );

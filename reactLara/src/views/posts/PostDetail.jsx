@@ -115,6 +115,16 @@ export default function PostDetail() {
           <p className="text-gray-600 mb-6 text-lg">
             {thisPostDetail.description}
           </p>
+          <p className="text-gray-600 mb-6 text-lg p-2 flex flex-wrap flex-row gap-1">
+            {thisPostDetail.tags?.map((tag) => (
+              <span
+                key={tag?.id}
+                className="bg-gray-200 text-gray-600 text-sm font-semibold px-3 py-1 rounded-full"
+              >
+                {tag.name ? tag.name : "No-Tags"}
+              </span>
+            ))}
+          </p>
         </div>
         <CommentList
           comments={thisPostDetail.comments}

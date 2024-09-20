@@ -1,12 +1,23 @@
 import React, { useState } from "react";
+import { useStateContext } from "../../contexts/ContextProvider";
 
 const CommentForm = ({ onPostComment, parentId = null }) => {
-  const [comment, setComment] = useState("");
+  const [content, setContent] = useState("");
+  const { user } = useStateContext(); // Assuming you have a user context
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onPostComment({ content: comment, parentId });
-    setComment("");
+    if (!content.trim()) return; // Prevent empty comments
+
+    const newComment = {
+      content: content.trim(),
+      user_id: user.id, // Include the current user's ID
+      parent_id: parentId,
+    };
+    console.log(newComment);
+
+    // onPostComment(newComment);
+    // setContent(""); // Clear the form after submission
   };
 
   return (
@@ -14,8 +25,8 @@ const CommentForm = ({ onPostComment, parentId = null }) => {
       <textarea
         className="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:border-indigo-500"
         rows="4"
-        placeholder="Write a comment..."
-        value={comment}
+        placeholder={parentId ? "Write a reply..." : "Write a comment..."}
+        value={content}
         onChange={(e) => setContent(e.target.value)}
         required
       ></textarea>
@@ -23,7 +34,7 @@ const CommentForm = ({ onPostComment, parentId = null }) => {
         type="submit"
         className="mt-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
       >
-        Post Comment
+        {parentId ? "Post Reply" : "Post Comment"}
       </button>
     </form>
   );

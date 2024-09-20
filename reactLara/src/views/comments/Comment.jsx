@@ -1,14 +1,20 @@
 import React, { useState } from "react";
 import CommentForm from "./CommentForm";
 import { format } from "date-fns";
-import {RiThumbUpLine} from 'react-icons/ri';
+import { RiThumbUpLine } from "react-icons/ri";
 
-const Comment = ({ comment, replies, allComments,likeCount }) => {
+const Comment = ({ comment, replies, allComments, likeCount }) => {
   const [isReplying, setIsReplying] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleReply = () => setIsReplying(!isReplying);
   const toggleExpand = () => setIsExpanded(!isExpanded);
+
+  //^-----------Handle reply--------------------------------
+  const handleReply = (content) => {
+    onPostComment({ content, parentId: comment.id });
+    setIsReplying(false);
+  };
 
   return (
     <article className="p-6">
@@ -16,7 +22,7 @@ const Comment = ({ comment, replies, allComments,likeCount }) => {
         <img
           className="w-10 h-10 rounded-full mr-4"
           src={comment.user?.profile_photo_url || "/default-avatar.jpg"}
-        //   alt={comment.user?.name}
+          //   alt={comment.user?.name}
         />
 
         <div>
@@ -43,19 +49,22 @@ const Comment = ({ comment, replies, allComments,likeCount }) => {
           >
             {isExpanded ? "Hide replies" : `Show ${replies.length} replies`}
           </button>
-          
         )}
         <button
-            // onClick={toggleExpand}
-            className="text-indigo-500 hover:text-gray-700 font-medium text-sm flex justify-center items-center gap-1"
-          >
-            <RiThumbUpLine/>
-           {likeCount >=0 ? likeCount : 0}
-          </button>
+          // onClick={toggleExpand}
+          className="text-indigo-500 hover:text-gray-700 font-medium text-sm flex justify-center items-center gap-1"
+        >
+          <RiThumbUpLine />
+          {likeCount >= 0 ? likeCount : 0}
+        </button>
       </div>
       {isReplying && (
         <div className="mt-4">
-          <CommentForm parentId={comment.id} postId={comment.post_id} />
+          <CommentForm
+            onPostComment={handleReply}
+            parentId={comment.id}
+            postId={comment.post_id}
+          />
         </div>
       )}
       {isExpanded && replies.length > 0 && (
@@ -67,6 +76,7 @@ const Comment = ({ comment, replies, allComments,likeCount }) => {
               replies={allComments.filter((r) => r.parent_id === reply.id)}
               allComments={allComments}
               likeCount={reply.likes}
+              onPostComment={onPostComment}
             />
           ))}
         </div>

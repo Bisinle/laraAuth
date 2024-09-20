@@ -1,9 +1,8 @@
-
 import React from "react";
 import Comment from "./Comment";
 import CommentForm from "./CommentForm";
 
-const CommentList = ({ comments, userName, postId }) => {
+const CommentList = ({ comments, postId, onPostComment }) => {
   const topLevelComments = comments.filter(
     (comment) => comment.parent_id === null
   );
@@ -13,7 +12,7 @@ const CommentList = ({ comments, userName, postId }) => {
       <h3 className="text-2xl font-bold text-gray-900 p-6 border-b border-gray-200">
         Comments ({comments.length})
       </h3>
-      <CommentForm postId={postId} parentId={null} />
+      <CommentForm postId={postId} parentId={null}  onPostComment={onPostComment} />
       <div className="divide-y divide-gray-200">
         {topLevelComments.map((comment) => (
           <Comment
@@ -22,6 +21,7 @@ const CommentList = ({ comments, userName, postId }) => {
             replies={comments.filter((reply) => reply.parent_id === comment.id)}
             allComments={comments}
             likeCount={comment.likes}
+            onPostComment={onPostComment}
           />
         ))}
       </div>

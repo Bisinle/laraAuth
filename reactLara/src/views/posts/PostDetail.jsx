@@ -21,7 +21,7 @@ export default function PostDetail() {
       axiosClient
         .get(`/posts/${id}`)
         .then(({ data }) => {
-          console.log(data);
+          // console.log(data);
 
           setThisPostDetail(data.data); // Assuming the post is in data.data
           setLoading(false);
@@ -31,20 +31,6 @@ export default function PostDetail() {
           setLoading(false);
         });
     }
-    // if (id) {
-    //   axiosClient
-    //     .get(`comments/{id}`)
-    //     .then(({ data }) => {
-    //       console.log(data);
-
-    //       setComments(data.data); // Assuming the post is in data.data
-    //       setLoading(false);
-    //     })
-    //     .catch((err) => {
-    //       setError("Failed to fetch post");
-    //       setLoading(false);
-    //     });
-    // }
   }, [id]);
   // console.log(comments);
 
@@ -55,6 +41,32 @@ export default function PostDetail() {
     });
   };
 
+  //^--- P O S T I N G--------------- C O M M E N T S --------------------------
+  const handlePostComment = async (newComment) => {
+    try {
+      const response = await axiosClient.post("/comments", {
+        content: newComment.content,
+        post_id: id,
+        parent_id: newComment.parentId || null,
+        user_id: JSON.parse(localStorage.getItem("user")).id,
+      });
+
+      const postedComment = response.data.data;
+
+      setThisPostDetail((prevPost) => ({
+        ...prevPost,
+        comments: [...prevPost.comments, postedComment],
+      }));
+
+      showNotification("Comment posted successfully");
+    } catch (error) {
+      console.error("Error posting comment:", error);
+      showNotification("Failed to post comment", "error");
+    }
+  };
+
+  // console.log(thisPostDetail.comments);
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -62,11 +74,9 @@ export default function PostDetail() {
       </div>
     );
   }
-
   if (error) {
     return <div className="text-red-500 text-center">{error}</div>;
   }
-
   if (!thisPostDetail) {
     return <div className="text-center">Post not found</div>;
   }
@@ -130,6 +140,7 @@ export default function PostDetail() {
           comments={thisPostDetail.comments}
           userName={thisPostDetail.user?.name}
           postId={thisPostDetail.id}
+          onPostComment={handlePostComment}
         />
       </div>
     </div>

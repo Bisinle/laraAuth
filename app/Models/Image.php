@@ -11,6 +11,7 @@ use Mockery\Generator\StringManipulationGenerator;
 class Image extends Model
 {
     use HasFactory;
+    protected $fillable = ['url'];
     //^ polymorphic relationship
     public function image(): MorphOne
     {

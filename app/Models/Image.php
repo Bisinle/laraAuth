@@ -4,17 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Foundation\Mix;
 use Mockery\Generator\StringManipulationGenerator;
 
 class Image extends Model
 {
     use HasFactory;
-    protected $fillable = ['url'];
+    // protected $fillable = ['url'];
+    protected $fillable = ['url', 'imageable_type', 'imageable_id'];
     //^ polymorphic relationship
-    public function image(): MorphOne
+    public function imageable(): MorphTo
     {
-        return $this->morphOne(Image::class, "imageable");
+        return $this->morphTo();
     }
 }

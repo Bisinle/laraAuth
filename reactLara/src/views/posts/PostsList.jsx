@@ -23,8 +23,12 @@ export default function PostsList() {
 
         setUserPosts(userPosts);
         setAllPosts(data.data);
+        console.log(data)
+        
         setMeta(data.meta);
       } catch (err) {
+        console.log(err);
+        
         setError("Failed to fetch posts");
       } finally {
         setLoading(false);

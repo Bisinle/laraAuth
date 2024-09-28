@@ -10,28 +10,29 @@ export default function Login() {
     const { setCurrentUser, setToken } = useStateContext();
     const [message, setMessage] = useState(null);
 
-    const onSubmit = (ev) => {
+    const onSubmit = async (ev) => {
         ev.preventDefault();
 
         const credentials = {
             email: emailRef.current.value,
             password: passwordRef.current.value,
         };
-        axiosClient
-            .post("/login", credentials)
-            .then(({ data }) => {
+        console.log(credentials);
+        
+        try {
+            axiosClient.post("/login", credentials).then(({ data }) => {
                 // console.log(data.user.posts.category);
                 localStorage.setItem("user", JSON.stringify(data.user));
                 setCurrentUser(data.user);
                 setToken(data.token);
-                // setToken(data.token);
-            })
-            .catch((err) => {
-                const response = err.response;
-                if (response && response.status === 422) {
-                    setMessage(response.data.message);
-                }
             });
+        } catch (err) {
+            const response = err.response;
+            if (response && response.status === 422) {
+                setMessage(response.data.message);
+            }
+        }
+        
     };
 
     return (

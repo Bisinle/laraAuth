@@ -10,7 +10,7 @@ const categoryContext = () => {
         fetchCategories();
     }, []);
 
-    //^ fetch posts function ------------------------------------------------------------------------->
+    //^ fetch categories function ------------------------------------------------------------------------->
     const fetchCategories = async () => {
         try {
             setCategoryLoading(true);

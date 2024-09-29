@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axiosClient from "../../axiosClient";
+import {axiosApi} from "../../axiosClient";
 import { useStateContext } from "../../contexts/ContextProvider";
 import categoryContext from "../../contexts/categoryContext";
 
@@ -25,7 +25,7 @@ export default function PostForm() {
   useEffect(() => {
     if (id) {
       setLoading(true);
-      axiosClient
+      axiosApi
         .get(`/posts/${id}`)
         .then(({ data }) => {
           setLoading(false);
@@ -54,7 +54,7 @@ export default function PostForm() {
     if (post.id) {
       console.log(post.category_id);
 
-      axiosClient
+      axiosApi
         .put(`/posts/${post.id}`, post)
         .then(() => {
           showNotification("Post was successfully updated");
@@ -67,7 +67,7 @@ export default function PostForm() {
           }
         });
     } else {
-      axiosClient
+      axiosApi
         .post("/posts", newlyCreatedPost)
         .then(() => {
           showNotification("Post was successfully created");

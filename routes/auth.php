@@ -16,10 +16,9 @@ Route::post('/register', [RegisteredUserController::class, 'store'])
 // Route::post('/login', [AuthenticatedSessionController::class, 'store'])
 //     ->middleware('guest')
 //     ->name('login');
-Route::post('/login', [AuthController::class, 'login']);
-// Route::post('/signup', [AuthController::class, 'signup']);
-Route::post('/logout', [AuthController::class, 'logout']);
-
+Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:3,1');;
+Route::post('/signup', [AuthController::class, 'signup']);
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
 
 Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])

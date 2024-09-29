@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import axiosClient from "../../axiosClient";
+import {axiosApi} from "../../axiosClient";
 import { format } from "date-fns";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -18,7 +18,7 @@ export default function PostDetail() {
 
   useEffect(() => {
     if (id) {
-      axiosClient
+      axiosApi
         .get(`/posts/${id}`)
         .then(({ data }) => {
           // console.log(data);
@@ -35,7 +35,7 @@ export default function PostDetail() {
   // console.log(comments);
 
   const onDeleteClick = (post) => {
-    axiosClient.delete(`/posts/${post.id}`).then(() => {
+    axiosApi.delete(`/posts/${post.id}`).then(() => {
       showNotification("User was successfully deleted");
       navigate("/posts");
     });
@@ -44,7 +44,7 @@ export default function PostDetail() {
   //^--- P O S T I N G--------------- C O M M E N T S --------------------------
   const handlePostComment = async (newComment) => {
     try {
-      const response = await axiosClient.post("/comments", {
+      const response = await axiosApi.post("/comments", {
         content: newComment.content,
         post_id: id,
         parent_id: newComment.parentId || null,

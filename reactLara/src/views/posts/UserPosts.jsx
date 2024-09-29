@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import CreatPostButton from "./CreatPostButton";
 import PostItem from "./PostItem";
-import axiosClient from "../../axiosClient";
+import { axiosApi } from "../../axiosClient";
 
 function UserPosts() {
   const currentUser = JSON.parse(localStorage.getItem("user"));
@@ -19,7 +19,7 @@ function UserPosts() {
 
     try {
       setLoading(true);
-      const response = await axiosClient.get(`/users/${currentUser.id}`);
+      const response = await axiosApi.get(`/users/${currentUser.id}`);
 
       if (response.data && response.data.data.posts) {
         setUserPosts(response.data.data.posts);

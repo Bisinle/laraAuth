@@ -1,15 +1,42 @@
-import { Link } from "react-router-dom";
-import axiosClient from "../axiosClient";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+// import axiosClient from "../axiosClient";
+import {axiosAuth} from "../axiosClient";
+
 import { createRef } from "react";
 import { useStateContext } from "../contexts/ContextProvider.jsx";
 import { useState } from "react";
 
 export default function Login() {
+    const navigate = useNavigate();
     const emailRef = createRef();
     const passwordRef = createRef();
     const { setCurrentUser, setToken } = useStateContext();
     const [message, setMessage] = useState(null);
 
+    // const onSubmit = async (ev) => {
+    //     ev.preventDefault();
+
+    //     const credentials = {
+    //         email: emailRef.current.value,
+    //         password: passwordRef.current.value,
+    //     };
+    //     console.log(credentials);
+
+    //     try {
+    //         axiosClient.post("/login", credentials).then(({ data }) => {
+    //             // console.log(data.user.posts.category);
+    //             localStorage.setItem("user", JSON.stringify(data.user));
+    //             setCurrentUser(data.user);
+    //             setToken(data.token);
+    //         });
+    //     } catch (err) {
+    //         const response = err.response;
+    //         if (response && response.status === 422) {
+    //             setMessage(response.data.message);
+    //         }
+    //     }
+
+    // };
     const onSubmit = async (ev) => {
         ev.preventDefault();
 
@@ -17,24 +44,25 @@ export default function Login() {
             email: emailRef.current.value,
             password: passwordRef.current.value,
         };
-        console.log(credentials);
+        console.log('in submit login');
         
+
         try {
-            axiosClient.post("/login", credentials).then(({ data }) => {
-                // console.log(data.user.posts.category);
-                localStorage.setItem("user", JSON.stringify(data.user));
-                setCurrentUser(data.user);
-                setToken(data.token);
-            });
+            const response = await axiosAuth.post("/login", credentials);
+            const { user, token } = response.data;
+            console.log(response);
+
+            setCurrentUser(user);
+            setToken(token);
+            localStorage.setItem("user", JSON.stringify(user));
+            navigate("/posts");
         } catch (err) {
             const response = err.response;
             if (response && response.status === 422) {
                 setMessage(response.data.message);
             }
         }
-        
     };
-
     return (
         <form onSubmit={onSubmit}>
             <h1 className="title">Login into your account</h1>

@@ -1,8 +1,8 @@
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import {axiosAuth} from "../axiosClient";
+import { axiosAuth } from "../../axiosClient.jsx";
 
 import { createRef } from "react";
-import { useStateContext } from "../contexts/ContextProvider.jsx";
+import { useStateContext } from "../../contexts/ContextProvider.jsx";
 import { useState } from "react";
 
 export default function Login() {
@@ -12,30 +12,7 @@ export default function Login() {
     const { setCurrentUser, setToken } = useStateContext();
     const [message, setMessage] = useState(null);
 
-    // const onSubmit = async (ev) => {
-    //     ev.preventDefault();
-
-    //     const credentials = {
-    //         email: emailRef.current.value,
-    //         password: passwordRef.current.value,
-    //     };
-    //     console.log(credentials);
-
-    //     try {
-    //         axiosClient.post("/login", credentials).then(({ data }) => {
-    //             // console.log(data.user.posts.category);
-    //             localStorage.setItem("user", JSON.stringify(data.user));
-    //             setCurrentUser(data.user);
-    //             setToken(data.token);
-    //         });
-    //     } catch (err) {
-    //         const response = err.response;
-    //         if (response && response.status === 422) {
-    //             setMessage(response.data.message);
-    //         }
-    //     }
-
-    // };
+   
     const onSubmit = async (ev) => {
         ev.preventDefault();
 
@@ -43,8 +20,7 @@ export default function Login() {
             email: emailRef.current.value,
             password: passwordRef.current.value,
         };
-        console.log('in submit login');
-        
+        console.log("in submit login");
 
         try {
             const response = await axiosAuth.post("/login", credentials);
@@ -85,6 +61,10 @@ export default function Login() {
                 placeholder="Password"
             />
             <button className="btn btn-block">Login</button>
+            <p className="message">
+               
+                <Link to="/forgot-password">Forgot password</Link>
+            </p>
             <p className="message">
                 Not registered? <Link to="/signup">Create an account</Link>
             </p>

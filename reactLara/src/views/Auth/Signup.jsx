@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { createRef, useState } from "react";
-import axiosAuth from "../axiosClient";
-import { useStateContext } from "../contexts/ContextProvider";
+import axiosAuth from "../../axiosClient";
+import { useStateContext } from "../../contexts/ContextProvider";
 
 export default function Signup() {
     const nameRef = createRef();

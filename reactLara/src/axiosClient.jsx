@@ -18,7 +18,7 @@ const addRequestInterceptor = (axiosInstance) => {
         // Fetch CSRF cookie before non-GET requests
         if (config.method !== "get") {
             await axios.get(
-                `${import.meta.env.VITE_APP_URL}/sanctum/csrf-cookie`
+                `${import.meta.env.VITE_API_AUTH_URL}/sanctum/csrf-cookie`
             );
         }
         return config;

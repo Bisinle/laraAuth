@@ -1,6 +1,6 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import Login from "./views/Login";
-import Signup from "./views/Signup";
+import Login from "./views/Auth/Login";
+import Signup from "./views/Auth/Signup";
 import NotFound from "./views/NotFound";
 import DefaultLayout from "./components/DefaultLayout";
 import GuestLayout from "./components/GuestLayout";
@@ -10,6 +10,7 @@ import PostDetail from "./views/posts/PostDetail";
 import PostForm from "./views/posts/PostForm";
 import Settings from "./views/Settings";
 import UserPosts from "./views/posts/UserPosts";
+import ForgotPassword from "./views/Auth/ForgotPassword";
 
 const router = createBrowserRouter([
     {
@@ -48,7 +49,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "/settings",
-                element: <Settings  />,
+                element: <Settings />,
             },
         ],
     },
@@ -63,6 +64,10 @@ const router = createBrowserRouter([
             {
                 path: "/signup",
                 element: <Signup />,
+            },
+            {
+                path: "/forgot-password",
+                element: <ForgotPassword />,
             },
         ],
     },
